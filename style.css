@@ -51,7 +51,7 @@ header h1 { font: 1.6em Tahoma, sans-serif;  font-weight: normal; margin: 0; }
 /*#q { position: absolute; top:25px; right:20%; padding: 0.2em; font-size:1.6em;}*/
 #q { padding: 0.1em; font-size:1.4em;}
 
-#main { clear:both; padding: 10px; }
+#main { clear:both; padding: 10px 0 10px 5px; }
 
 .highlight, td.match { background:  #ffbf2d; }
 
@@ -62,7 +62,7 @@ thead td { color:#fff; font-size: 110%; font-weight: bold; }
 tr { border-bottom: 1px solid #ccc;}
 td { padding: 0.25em; border: 1px solid #ccc; }
 td:nth-child(1) { font-size: 100%; font-weight: bold; }
-tbody td { }
+tbody td { padding: 0.25em 0 0.2em 0.2em; }
 tbody tr:hover { background: #ffbf2d !important; }
 tbody tr:nth-child(2n) { background: #eee; }
 
