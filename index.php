@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>DBRL Schedule</title>
   <link rel="stylesheet" href="style.css">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
     <script src="jquery.floatheader.min.js"></script>
   <script>
 
