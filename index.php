@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>DBRL Schedule</title>
   <link rel="stylesheet" href="style.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
     <script src="jquery.floatheader.min.js"></script>
@@ -16,7 +16,7 @@
          $("#list li").eq(0).addClass("active");
 
          // add search box
-         $('<input name="q" id="q" size="6" />').appendTo("thead tr:nth-child(2) td:first").focus();
+         $('<input name="q" id="q" size="4" maxlength="5"/>').appendTo("thead tr:nth-child(2) td:first").focus();
          //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
 
          var date = new Date();
@@ -40,47 +40,38 @@
 
              $("#main").load('schedule' + id + '.html', function() {
                  $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
-                 $('<input name="q" id="q" size="6" />').appendTo("thead tr:nth-child(2) td:first").focus();
+                 $('<input name="q" id="q" size="4" maxlength="5" />').appendTo("thead tr:nth-child(2) td:first").focus();
                  $("#list li").removeClass("active").eq(id).addClass("active");
                  ///$(".reporttable").width($(".reporttable").width());
                  $( "#reporttable" + id ).floatHeader();
              });
 
-             //console.log($that.attr("rel"));
-             //$activeTable = $( "#reporttable" + $that.attr("rel") );
-             //console.log($activeTable);
-            /* $("table:visible").fadeOut(400, function() {
-                 $(".floatHeader").remove();
-                 $activeTable.fadeIn(800, function(){
-                  // $floatHeader.fhInit();
-                  $( "#reporttable" + $that.attr("rel") ).floatHeader();
-                 });
-
-             });*/
-
          });
 
-         $("#q").live('keyup', function(){
+         $("#q").live('keyup', function(e){
               $this = $(this);
               search_text = $this.val();
 
-              if ( search_text.length < 3 ) {
+              if ( search_text.length == 0 ) {
                   $(".match").removeClass("match");
                   $("tbody tr").stop(true, true).fadeTo(400,1);
 
               }
 
-              if ( search_text.length  >= 3 ) {
-                  $(".match").removeClass("match");
+              if ( search_text.length  >= 3 && search_text.length  <= 5 ) {
+                  // stop previous events
+                  //e.stopImmediatePropagation();
+
+                  $("tr, td").removeClass("match");
                   $("tbody tr").stop(true, true).fadeIn();
                   
                   var re = new RegExp("^"+search_text,"i");
+
                   $("tbody td.details_shifts").filter(function() {
-                    return $(this).text().match(re);
+                     return $(this).text().match(re);
                    }).addClass("match").parent().addClass("match");
 
-                  //$("tbody tr").not(".match").stop(true, true).fadeOut(600);
-                  $("tbody tr").not(".match").stop(true, true).fadeTo(600,0.3);
+                  //$("tbody tr:not(.match)").stop(true, true).fadeTo(500,0.3);
               }
 
          });
@@ -90,9 +81,8 @@
 </head>
 <body>
     <div id="container">
-    <header>
+    <div id="header">
         <h1>DBRL Public Services Schedule</h1>
-        <p><em>This is a work in progress. Best viewed in a &ldquo;proper&rdquo; browser (IE 9+, Firefox, Chrome, etc.)</em></p>
         <div id="nav">
         <ul id="list">
           <li><a href="#" rel="0">Today</a></li>
@@ -103,13 +93,13 @@
            ?>
         </ul>
         </div>
-    </header>
+    </div>
     <div id="main" role="main">
         <?php echo file_get_contents('/home/www/intranet.dbrl.org/www/app/peoplewhat/schedule0.html'); ?>
     </div>
-    <footer>
-        PeopleWhat&trade; <em>Express</em>
-    </footer>
+    <div id="footer">
+        Powered by <em>Schedule Magic</em>&trade;
+    </div>
   </div>
 </body>
 </html>
