@@ -46,25 +46,13 @@
                  $( "#reporttable" + id ).floatHeader();
              });
 
-             //console.log($that.attr("rel"));
-             //$activeTable = $( "#reporttable" + $that.attr("rel") );
-             //console.log($activeTable);
-            /* $("table:visible").fadeOut(400, function() {
-                 $(".floatHeader").remove();
-                 $activeTable.fadeIn(800, function(){
-                  // $floatHeader.fhInit();
-                  $( "#reporttable" + $that.attr("rel") ).floatHeader();
-                 });
-
-             });*/
-
          });
 
          $("#q").live('keyup', function(){
               $this = $(this);
               search_text = $this.val();
 
-              if ( search_text.length < 3 ) {
+              if ( search_text.length == 0 ) {
                   $(".match").removeClass("match");
                   $("tbody tr").stop(true, true).fadeTo(400,1);
 
