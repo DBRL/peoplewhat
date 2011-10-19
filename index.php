@@ -96,7 +96,7 @@
         <?php echo file_get_contents('/home/www/intranet.dbrl.org/www/app/peoplewhat/schedule0.html'); ?>
     </div>
     <div id="footer">
-        Powered by <em>Schedule Magic</em>&trade;
+        Powered by <em>Schedule Magic!</em>&trade;
     </div>
   </div>
 </body>
