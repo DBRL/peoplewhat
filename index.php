@@ -59,8 +59,6 @@
               }
 
               if ( search_text.length  >= 3 && search_text.length  <= 5 ) {
-                  // stop previous events
-                  //e.stopImmediatePropagation();
 
                   $("tr, td").removeClass("match");
                   $("tbody tr").stop(true, true).fadeIn();
