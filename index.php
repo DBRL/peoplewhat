@@ -10,6 +10,15 @@
 
       $(function() {
 
+         var update_date = function(){
+             //console.log('!');
+             var date = new Date();
+             $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
+         }
+
+         update_date();
+         window.setInterval(update_date, 5*60*1000);
+
          //$("table").hide();
          //$("table").eq(0).show();
 
@@ -19,8 +28,7 @@
          $('<input name="q" id="q" size="4" maxlength="5"/>').appendTo("thead tr:nth-child(2) td:first").focus();
          //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
 
-         var date = new Date();
-         $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
+
 
          $.ajaxSetup ({
     		cache: false
