@@ -10,48 +10,61 @@
 
       $(function() {
 
+         // auto highlight current hour when on today's schedule
          var update_date = function(){
              //console.log('!');
              var date = new Date();
              $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
+             return setTimeout(update_date, 5*60*1000)
          }
+         var timeout = update_date();
 
-         update_date();
-         window.setInterval(update_date, 5*60*1000);
-
-         //$("table").hide();
-         //$("table").eq(0).show();
-
-         $("#list li").eq(0).addClass("active");
 
          // add search box
-         $('<input name="q" id="q" size="4" maxlength="5"/>').appendTo("thead tr:nth-child(2) td:first").focus();
-         //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
-
-
+         var add_search = function() {
+             $('<input name="q" id="q" size="4" maxlength="5"/>').appendTo("thead tr:nth-child(2) td:first").focus();
+             //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
+         }
+         add_search();
 
          $.ajaxSetup ({
     		cache: false
 	      });
 
-         var $floatHeader = $("#reporttable0").floatHeader();
+         // lock the container height
+         $("#schedule").height($("#schedule").height());
 
-         // fix the table width
-         ///$(".reporttable").width($(".reporttable").width());
+         var $floatHeader = $("#reporttable0").floatHeader();
 
          $("#list a").click(function(e) {
              e.preventDefault();
              $that = $(this);
              var id = $that.attr("rel");
 
-             $("#main .reporttable").fadeOut(400);
+             $("#schedule").fadeOut(200, function() {
 
-             $("#main").load('schedule' + id + '.html', function() {
-                 $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
-                 $('<input name="q" id="q" size="4" maxlength="5" />').appendTo("thead tr:nth-child(2) td:first").focus();
-                 $("#list li").removeClass("active").eq(id).addClass("active");
-                 ///$(".reporttable").width($(".reporttable").width());
-                 $( "#reporttable" + id ).floatHeader();
+                 $.ajax({
+                  url: 'schedule' + id + '.html',
+                  success: function(data) {
+                     $("#schedule").html(data);
+                  },
+                  complete: function(data) {
+
+                     $("#list li").removeClass("active").eq(id).addClass("active");
+                     $("#schedule").fadeIn(300);
+                     add_search();
+                     $( "#reporttable" + id ).floatHeader();
+
+                     if ( id == 0 ) {
+                        timeout = update_date();
+                     } else {
+                        clearTimeout(timeout);
+                     }
+
+                  },
+                  dataType: "html"
+                });
+
              });
 
          });
@@ -91,7 +104,7 @@
         <h1>DBRL Public Services Schedule</h1>
         <div id="nav">
         <ul id="list">
-          <li><a href="#" rel="0">Today</a></li>
+          <li class="active"><a href="#" rel="0">Today</a></li>
           <?php
             for ($i = 1; $i < 10 ; $i++ ):
                 echo '<li><a href="#'.$i.'" rel="'.$i.'">' . date('l', strtotime($i.' days')) . '</a></li>';
@@ -101,9 +114,11 @@
         </div>
     </div>
     <div id="main" role="main">
+       <div id="schedule">
         <?php echo file_get_contents('/home/www/intranet.dbrl.org/www/app/peoplewhat/schedule0.html'); ?>
+       </div>
     </div>
-    <div id="footer">
+    <div id="footer" style="display: none;">
         Powered by <em>Schedule Magic!</em>&trade;
     </div>
   </div>

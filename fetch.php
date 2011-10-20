@@ -1,18 +1,33 @@
 <?php
-define('LOGIN',true);
+define('LOGIN',false);
+define('NUM_SCHEDULES',10);
 define('USERNAME','switchboard');
 define('PASSWORD','switchboard');
 define('SCHEDULES_PATH','/home/www/intranet.dbrl.org/www/app/peoplewhat/');
+//define('SCHEDULES_PATH','/home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/');
 define('COOKIEFILE','/home/www/intranet.dbrl.org/www/app/peoplewhat/cookies.txt');
-//&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011
-//&startdate=10/14/2011&enddate=10/11/2011
 define('REPORT_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
 
-$today = date('Y-m-d');
+$librarians = array(
+    'Angela S',
+    'Betsy C',
+    'Brandy S',
+    'Hilary A',
+    'Hollis S',
+    'Judy P',
+    'Kirk H',
+    'Lauren W',
+    'Nina S',
+    'Patricia M',
+    'Sally A',
+    'Sarah H',
+    'Seth S',
+    'Svetlana G'
+);
 
 $dates = array();
 
-for ( $i = 0; $i < 10; $i++ ):
+for ( $i = 0; $i < NUM_SCHEDULES; $i++ ):
     $dates[] = date('n/j/Y', strtotime($i.' days'));
 endfor;
 
@@ -69,7 +84,7 @@ function get_schedule( $date ){
 
 
 function extract_table_html ( &$html, $i ) {
-    global $crap_to_delete;
+    global $crap_to_delete, $librarians;
    // extract the main schedule table
     $start = strpos($html, '<table id="reporttable"');
     $stop = strpos($html, '<div style="display:none; border:#000 solid 1px;" id="pleasewait">');
@@ -80,15 +95,10 @@ function extract_table_html ( &$html, $i ) {
     $table = str_replace('<tr',"\n\n<tr",$table);
     $table = str_replace('<td',"\n<td",$table);
 
-
-
     $table = preg_replace($crap_to_delete,'',$table);
 
     // more cleanup
     $table = str_replace('</span></span>','</span>',$table);
-
-    //preg_match("/<span class='details_staffname'>(\w+), (\w+)<\/span>/",$table, $names);
-    //var_dump($names);
 
     $table = preg_replace("/\n<span class='details_staffname'>(\w+), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
     $table = str_replace('></td>','>&nbsp;</td>', $table);
@@ -99,6 +109,14 @@ function extract_table_html ( &$html, $i ) {
 
     //give each table unique ID
     $table = str_replace('id="reporttable','id="reporttable'.$i, $table);
+
+    // remove empty rows
+    $table = preg_replace("/<tr>\n<td .+>.+\n<\/td>\n(<td .+>&nbsp;<\/td>\n?)+<\/tr>/",'',$table);
+
+    // mark the librarians
+    foreach ( $librarians as $awesome ):
+        $table = preg_replace("/($awesome)/","<span>$1</span>",$table);
+    endforeach;
 
     return $table;
 }
