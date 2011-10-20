@@ -1,6 +1,6 @@
 <?php
 define('LOGIN',false);
-define('NUM_SCHEDULES',1);
+define('NUM_SCHEDULES',10);
 define('USERNAME','switchboard');
 define('PASSWORD','switchboard');
 define('SCHEDULES_PATH','/home/www/intranet.dbrl.org/www/app/peoplewhat/');
