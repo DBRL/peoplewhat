@@ -1,6 +1,6 @@
 <?php
 define('LOGIN',false);
-define('NUM_SCHEDULES',10);
+define('NUM_SCHEDULES',1);
 define('USERNAME','switchboard');
 define('PASSWORD','switchboard');
 define('SCHEDULES_PATH','/home/www/intranet.dbrl.org/www/app/peoplewhat/');
@@ -115,7 +115,7 @@ function extract_table_html ( &$html, $i ) {
 
     // mark the librarians
     foreach ( $librarians as $awesome ):
-        $table = preg_replace("/($awesome)/","<span>$1</span>",$table);
+        $table = preg_replace("/<td colspan='4' class='details_shifts'>($awesome)<\/td>/","<td colspan='4' class='details_shifts librarian'>$1</td>",$table);
     endforeach;
 
     return $table;
