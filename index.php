@@ -25,11 +25,12 @@
 
          // add search box
          var add_search = function() {
-             $('<input name="q" id="q" size="4" maxlength="5"/>').appendTo("thead tr:nth-child(2) td:first").focus();
+             $('<input name="q" id="q" size="5" maxlength="7"/>').appendTo("thead tr:nth-child(2) td:first").focus();
              //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
          }
          add_search();
 
+         // removed redundant desk labels and add row highlighting
          var highlight_desks = function(){
             var current = "";
             var rowClass = "even";
@@ -99,10 +100,13 @@
                   $("tbody tr").stop(true, true).fadeTo(400,1);
               }
 
-              if ( search_text.length  >= 3 && search_text.length  <= 5 ) {
+              if ( search_text.length  >= 3 && search_text.length  <= 7 ) {
 
                   $("tr, td").removeClass("match");
-                  $("tbody tr").stop(true, true).fadeIn();
+
+                 /* if ( !$.browser.msie ) {
+                    $("tbody tr").stop(true, true).fadeIn();
+                  }*/
                   
                   var re = new RegExp("^"+search_text,"i");
 
@@ -110,7 +114,9 @@
                      return $(this).text().match(re);
                    }).addClass("match").parent().addClass("match");
 
-                  //$("tbody tr:not(.match)").stop(true, true).fadeTo(500,0.3);
+                  /*if ( !$.browser.msie ) {
+                    $("tbody tr:not(.match)").stop(true, true).fadeTo(500,0.3);
+                  }*/
               }
 
          });
