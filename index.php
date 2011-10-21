@@ -3,9 +3,11 @@
 <head>
   <meta charset="utf-8">
   <title>DBRL Schedule</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
-    <script src="jquery.floatheader.min.js"></script>
+  <script src="jquery.floatheader.min.js"></script>
+
   <script>
 
       $(function() {
@@ -26,6 +28,23 @@
              //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
          }
          add_search();
+
+         var highlight_desks = function(){
+            var current = "";
+            var rowClass = "even";
+            $("tbody tr").find("td:first").each(function() {
+              $this = $(this);
+              if ( $this.text() != current ) {
+                rowClass = ( rowClass == "even" ) ? "" : "even";
+                $this.parent().addClass(rowClass);
+                current = $this.text();
+              } else {
+                $this.parent().addClass(rowClass);
+                $this.text("");
+              }
+            });
+         }
+         highlight_desks();
 
          $.ajaxSetup ({
     		cache: false
@@ -53,6 +72,7 @@
                      $("#list li").removeClass("active").eq(id).addClass("active");
                      $("#schedule").fadeIn(300);
                      add_search();
+                     highlight_desks();
                      $( "#reporttable" + id ).floatHeader();
 
                      if ( id == 0 ) {
