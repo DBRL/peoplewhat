@@ -16,6 +16,7 @@
          var update_date = function(){
              //console.log('!');
              var date = new Date();
+             $("#reporttable0 thead td").removeClass("highlight");
              $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
              return setTimeout(update_date, 5*60*1000)
          }
