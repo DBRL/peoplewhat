@@ -55,6 +55,7 @@ td { padding: 0.25em; border: 1px solid #ccc; }
 td:nth-child(1) { font-size: 100%; font-weight: bold; }
 tbody td { padding: 0.25em 0 0.2em 0.25em; }
 tbody tr.even { background: #EEE; }
+tbody tr.desk { border-top: 2px solid #BABCC4; }
 .librarian { background: url("corner.png") no-repeat scroll left top transparent; }
 tbody tr:hover { background: #FFD574 !important; }
 /*tbody tr:nth-child(2n) { background: #EEE; }*/

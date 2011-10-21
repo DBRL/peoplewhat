@@ -36,7 +36,7 @@
               $this = $(this);
               if ( $this.text() != current ) {
                 rowClass = ( rowClass == "even" ) ? "" : "even";
-                $this.parent().addClass(rowClass);
+                $this.parent().addClass(rowClass + " desk");
                 current = $this.text();
               } else {
                 $this.parent().addClass(rowClass);
