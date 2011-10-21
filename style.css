@@ -62,8 +62,8 @@ thead td { color:#fff; font-size: 110%; font-weight: bold; }
 tr { border-bottom: 1px solid #ccc;}
 td { padding: 0.25em; border: 1px solid #ccc; }
 td:nth-child(1) { font-size: 100%; font-weight: bold; }
-tbody td { padding: 0.25em 0 0.2em 0.2em; }
-.librarian { /*border-left: 2px solid red;*/ background: #D8D4E7; }
+tbody td { padding: 0.25em 0 0.2em 0.25em; }
+.librarian { background: url("corner.png") no-repeat scroll left top transparent; }
 tbody tr:hover { background: #FFD574 !important; }
 tbody tr:nth-child(2n) { background: #eee; }
 

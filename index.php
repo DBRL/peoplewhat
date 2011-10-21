@@ -76,7 +76,6 @@
               if ( search_text.length == 0 ) {
                   $(".match").removeClass("match");
                   $("tbody tr").stop(true, true).fadeTo(400,1);
-
               }
 
               if ( search_text.length  >= 3 && search_text.length  <= 5 ) {
