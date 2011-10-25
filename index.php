@@ -25,7 +25,8 @@
 
          // add search box
          var add_search = function() {
-             $('<input name="q" id="q" size="5" maxlength="7"/>').appendTo("thead tr:nth-child(2) td:first").focus();
+             var $cell = $("thead tr:nth-child(2) td:first").html("");
+             $('<input name="q" id="q" maxlength="10"/>').appendTo($cell).focus();
              //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
          }
          add_search();
@@ -112,7 +113,7 @@
 
                   $("tbody td.details_shifts").filter(function() {
                      return $(this).text().match(re);
-                   }).addClass("match").parent().addClass("match");
+                   }).addClass("match");
 
                   /*if ( !$.browser.msie ) {
                     $("tbody tr:not(.match)").stop(true, true).fadeTo(500,0.3);

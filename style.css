@@ -40,7 +40,14 @@ td { vertical-align: top; }
 #list a:hover { background: #ffbf2d; color: #FFF; }
 #list li.active a { background: #404C7D; color: #FFF; }
 
-#q { padding: 0.1em; font-size:1.2em; background: #D2DAFF; /*#EEDEF5;*/ border: none; }
+#q {
+    background: #D2DAFF;
+    border: none;
+    font-size: 1.2em;
+    margin: 6px 0 0 4px;
+    padding: 0.1em;
+    width: 80%;
+}
 
 #main { clear:both; padding: 10px 0 10px 5px; }
 

@@ -1,5 +1,5 @@
 <?php
-define('LOGIN',false);
+define('LOGIN',true);
 define('NUM_SCHEDULES',10);
 define('USERNAME','switchboard');
 define('PASSWORD','switchboard');
@@ -28,7 +28,7 @@ $librarians = array(
 $dates = array();
 
 for ( $i = 0; $i < NUM_SCHEDULES; $i++ ):
-    $dates[] = date('n/j/Y', strtotime($i.' days'));
+    $dates[] = date('m/d/Y', strtotime($i.' days'));
 endfor;
 
 //var_dump ($dates);
