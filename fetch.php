@@ -1,5 +1,5 @@
 <?php
-define('LOGIN',false);
+define('LOGIN',true);
 define('NUM_SCHEDULES',10);
 define('USERNAME','switchboard');
 define('PASSWORD','switchboard');
