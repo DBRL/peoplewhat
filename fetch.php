@@ -10,7 +10,6 @@ if (file_exists(SETTINGS_FILE)) {
     include_once SETTINGS_FILE;
 }
 
-define('LOGIN',true);
 define('NUM_SCHEDULES',10);
 define('USERNAME','npauley');
 define('PASSWORD','npauley');
@@ -50,7 +49,10 @@ $crap_to_delete = array(
   "/ACES . /"
 );
 
-
+/**
+ * @param $date
+ * @return string
+ */
 function get_schedule( $date ){
     // Parse cookie file to find session ID
     $cookie = file_get_contents(COOKIEFILE);
@@ -85,10 +87,15 @@ function get_schedule( $date ){
 }
 
 
+/**
+ * @param $html
+ * @param $i
+ * @return mixed|string
+ */
 function extract_table_html ( &$html, $i ) {
     global $crap_to_delete, $librarians;
 
-   // extract the main schedule table
+    // extract the main schedule table
     $start = strpos($html, '<table id="reporttable"');
     $stop = strpos($html, '<div style="display:none; border:#000 solid 1px;" id="pleasewait">');
     $table = substr($html,$start, $stop-$start);
@@ -124,6 +131,12 @@ function extract_table_html ( &$html, $i ) {
     return $table;
 }
 
+
+/**
+ * @param $file
+ * @param $table
+ * @return void
+ */
 function write_table ( $file, &$table ) {
     static $file_mode = 'w';
 
@@ -139,13 +152,14 @@ function write_table ( $file, &$table ) {
     }
 
     fclose($fh);
-
-    //$file_mode = 'a';
 }
 
-// Login to set the cookie
 
-if ( LOGIN ):
+/**
+ * @return void
+ * @description Login to set the cookie
+ */
+function peoplewhere_login(){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, LOGIN_URL . USERNAME . '&password=' . PASSWORD);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -156,20 +170,17 @@ if ( LOGIN ):
     $output = curl_exec($ch);
     $info = curl_getinfo($ch);
     curl_close($ch);
-endif;
+
+}
 
 
 
-
-
-
-//$html = get_schedule( '10/14/2011' );
-//$table = extract_table_html($html);
-//write_table('schedule1.html', $table);
-
+/*
 if ( isset($_GET['date']) && $_GET['date'] ) {
     $dates = array($_GET['date']);
 }
+var_dump($dates);
+*/
 
 ?>
 <html>
@@ -177,9 +188,12 @@ if ( isset($_GET['date']) && $_GET['date'] ) {
 
 <h3>Fetching tables&hellip;</h3>
 <?php
+
+peoplewhere_login();
+
 $i = 0;
 foreach ($dates as $d):
-    echo "<p>{$d}</p>";
+        echo "<p>{$d}</p>\n";
     $html = get_schedule( $d );
 
     if (TESTING) {
