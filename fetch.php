@@ -1,29 +1,27 @@
 <?php
-define('LOGIN',true);
+
+define('TESTING',false);
+
+///home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/
+define('APP_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR );
+define('SETTINGS_FILE', APP_PATH . 'settings.local.php');
+
+if (file_exists(SETTINGS_FILE)) {
+    include_once SETTINGS_FILE;
+}
+
 define('NUM_SCHEDULES',10);
-define('USERNAME','switchboard');
-define('PASSWORD','switchboard');
-define('SCHEDULES_PATH','/home/www/intranet.dbrl.org/www/app/peoplewhat/');
-//define('SCHEDULES_PATH','/home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/');
-define('COOKIEFILE','/home/www/intranet.dbrl.org/www/app/peoplewhat/cookies.txt');
+define('USERNAME','npauley');
+define('PASSWORD','npauley');
+
+define('SCHEDULES_PATH',APP_PATH);
+
+define('COOKIEFILE', APP_PATH . 'cookies.txt');
+define('LOGIN_URL','http://schedule.dbrl.org/login.asp?staffaction=signin&email=');
 define('REPORT_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
 
-$librarians = array(
-    'Angela S',
-    'Betsy C',
-    'Brandy S',
-    'Hilary A',
-    'Hollis S',
-    'Judy P',
-    'Kirk H',
-    'Lauren W',
-    'Nina S',
-    'Patricia M',
-    'Sally A',
-    'Sarah H',
-    'Seth S',
-    'Svetlana G'
-);
+$librarians = array( 'Angela S', 'Betsy C', 'Brandy S', 'Hilary A', 'Hollis S', 'Judy P', 'Kirk H',
+    'Lauren W', 'Nina S', 'Patricia M', 'Sally A', 'Sarah H', 'Seth S', 'Svetlana G' );
 
 $dates = array();
 
@@ -31,8 +29,9 @@ for ( $i = 0; $i < NUM_SCHEDULES; $i++ ):
     $dates[] = date('m/d/Y', strtotime($i.' days'));
 endfor;
 
+//$dates = array('10/31/2011');
 //var_dump ($dates);
-//exit;
+
 
 $crap_to_delete = array(
   "/<span class='details_date'>.+<br \/><\/span>\n/",
@@ -50,7 +49,10 @@ $crap_to_delete = array(
   "/ACES . /"
 );
 
-
+/**
+ * @param $date
+ * @return string
+ */
 function get_schedule( $date ){
     // Parse cookie file to find session ID
     $cookie = file_get_contents(COOKIEFILE);
@@ -66,7 +68,9 @@ function get_schedule( $date ){
     //$url = REPORT_URL . '&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011';
     $url = REPORT_URL . "&startdate={$date}&enddate={$date}";
 
-    //var_dump ($url);
+    if (false && TESTING) {
+        var_dump ($url);
+    }
 
     $opts = array(
       'http'=>array(
@@ -83,9 +87,15 @@ function get_schedule( $date ){
 }
 
 
+/**
+ * @param $html
+ * @param $i
+ * @return mixed|string
+ */
 function extract_table_html ( &$html, $i ) {
     global $crap_to_delete, $librarians;
-   // extract the main schedule table
+
+    // extract the main schedule table
     $start = strpos($html, '<table id="reporttable"');
     $stop = strpos($html, '<div style="display:none; border:#000 solid 1px;" id="pleasewait">');
     $table = substr($html,$start, $stop-$start);
@@ -121,6 +131,12 @@ function extract_table_html ( &$html, $i ) {
     return $table;
 }
 
+
+/**
+ * @param $file
+ * @param $table
+ * @return void
+ */
 function write_table ( $file, &$table ) {
     static $file_mode = 'w';
 
@@ -136,15 +152,16 @@ function write_table ( $file, &$table ) {
     }
 
     fclose($fh);
-
-    //$file_mode = 'a';
 }
 
-// Login to set the cookie
 
-if ( LOGIN ):
+/**
+ * @return void
+ * @description Login to set the cookie
+ */
+function peoplewhere_login(){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://schedule.dbrl.org/login.asp?staffaction=signin&email='.USERNAME.'&password='.PASSWORD);
+    curl_setopt($ch, CURLOPT_URL, LOGIN_URL . USERNAME . '&password=' . PASSWORD);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
     curl_setopt($ch, CURLOPT_COOKIEJAR, COOKIEFILE);
@@ -153,31 +170,41 @@ if ( LOGIN ):
     $output = curl_exec($ch);
     $info = curl_getinfo($ch);
     curl_close($ch);
-endif;
+
+}
 
 
 
-
-
-
-//$html = get_schedule( '10/14/2011' );
-//$table = extract_table_html($html);
-//write_table('schedule1.html', $table);
+/*
+if ( isset($_GET['date']) && $_GET['date'] ) {
+    $dates = array($_GET['date']);
+}
+var_dump($dates);
+*/
 
 ?>
 <html>
 <body>
 
 <h3>Fetching tables&hellip;</h3>
-<?php $i = 0;
+<?php
+
+peoplewhere_login();
+
+$i = 0;
 foreach ($dates as $d):
-    echo "<p>{$d}</p>";
+        echo "<p>{$d}</p>\n";
     $html = get_schedule( $d );
+
+    if (TESTING) {
+        write_table('schedule'.$i.'_.html', $html);
+    }
+
     $table = extract_table_html($html, $i);
     write_table('schedule'.$i++.'.html', $table);
 endforeach;
 ?>
-
+<p>Done.</p>
 
 </body>
 </html>
