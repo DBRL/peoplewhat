@@ -57,7 +57,7 @@ td { vertical-align: top; }
 
 .reporttable { }
 
-.floatHeader tr:nth-child(1) { background: #704482;  }
+.floatHeader tr:nth-child(1) { background: #4A5893;  }
 
 thead { background: #404C7D; /*#745F7E; #8f7c98;*/ }
 thead td { color:#fff; font-size: 110%; font-weight: bold; }

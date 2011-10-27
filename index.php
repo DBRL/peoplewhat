@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title>DBRL Schedule</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="print.css" media="print" />
+  <link rel="stylesheet" href="style.css?1" />
+  <link rel="stylesheet" href="print.css?1" media="print" />
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
   <script src="jquery.floatheader.min.js"></script>
 
   <script>
-      var  staff = {"Amanda B":573, "Diana B":14, "Elinor B":7, "Jim S":100, "Judy H":540, "Marlene G":473, "Melanie H":217, "Melissa C":18, "Rebecca B":556, "David M":526, "Joe N":548, "Johnny J":54, "Madeline R":94, "Mike K":497, "Russ N":396, "Ryan G":591, "William B":180, "Betsy C":21, "Doyne M":69, "Scott H":487, "Amanda G":604, "Amber S":426, "Amy Z":528, "Angie R":605, "Anna H":618, "Ashley A":613, "Bronwyn L":552, "Cameron V":586, "Chris S":105, "Christine M":455, "Dave K":619, "Debbie H":585, "Doreen M":542, "Elizabeth H":614, "Emily S":601, "Hala F":567, "Joleen K":476, "Jordan S":314, "Karen M":623, "Kathy W":553, "Katie H":504, "Kim S":606, "Kim M":284, "Kris A":621, "Lindsey A":603, "Liz L":593, "Mary Ann H":41, "Matt S":463, "Matt W":617, "Melissa M":616, "Michelle F":188, "Nancy C":602, "Nathan T":308, "Pam H":530, "Patrick F":598, "Paul G":600, "Peggy P":568, "Rita H":608, "Roberta L":527, "Roddrick E":554, "Sara M":622, "Sarah G":472, "Shana J":599, "Sharon H":360, "Sheryl B":261, "Shirley D":25, "Stephanie Clarisse H":620, "Tawanda C":20, "Tim P":612, "Wayne P":87, "Wendy R":317, "Jay J":367, "Mike F":590, "Mike M":78, "Stephanie H":299, "Carolyn C":17, "Deb J":55, "Eric S":96, "Frances B":16, "Heather P":124, "Karen N":81, "R. Otter B":312, "Jenny M":67, "Joanne W":594, "Mitzi S":559, "Nathan P":85, "Veronica M":577, "Zack G":468, "Aaron B":560, "Aimee L":150, "Althea H":46, "Amanda F":375, "Amy W":558, "Amy H":486, "Amy L":61, "Angela S":80, "Anita G":386, "Barb T":195, "Barbara B":8, "Bette S":494, "Brad W":495, "Brandy S":543, "Carren S":440, "Chris S":483, "Christina J":145, "Colleen B":544, "Dana B":517, "Dirk B":445, "Elaine S":281, "Elf N":507, "Elizabeth P":597, "Frank S":395, "Gloria B":5, "Gwen G":587, "Hilary A":171, "Hollis S":103, "Ida F":290, "Jessi M":534, "Jim C":313, "Jim H":377, "Jordan R":580, "Judy P":410, "Kate P":89, "Kirk H":500, "Lauren W":388, "Lindsey E":446, "Lindsey S":340, "Lucius B":330, "Maria C":22, "Mary G":37, "Melissa S":162, "Nancy L":68, "Nina S":95, "Patricia M":74, "Robert K":222, "Robin D":581, "Sally B":301, "Sally A":2, "Sarah H":52, "Sarah E":609, "Seth S":610, "Shash L":325, "Stephanie H":611, "Stephanie T":374, "Steve D":28, "Svetlana G":39, "Terri H":533, "Wendy B":579, "Dawn O":83, "Idenia T":109, "Lisa M":73, "Pat K":60, "Rikki W":112, "Ronda M":75, "Sara Frances D":515, "Stephanie B":12};
-
+      var  staff = {"Amanda B":573, "Diana B":14, "Elinor B":7, "Jim S":100, "Judy H":540, "Marlene G":473, "Melanie H":217, "Melissa C":18, "Rebecca B":556, "David M":526, "Joe N":548, "Johnny J":54, "Madeline R":94, "Mike K":497, "Russ N":396, "Ryan G":591, "William B":180, "Betsy C":21, "Doyne M":69, "Scott H":487, "Amanda G":604, "Amber S":426, "Amy Z":528, "Angie R":605, "Anna H":618, "Ashley A":613, "Bronwyn L":552, "Cameron V":586, "Chris S":105, "Christine M":455, "Dave K":619, "Debbie H":585, "Doreen M":542, "Elizabeth H":614, "Emily S":601, "Hala F":567, "Joleen K":476, "Jordan S":314, "Karen M":623, "Kathy W":553, "Katie H":504, "Kim S":606, "Kim M":284, "Kris A":621, "Lindsey A":603, "Liz L":593, "Mary Ann H":41, "Matt S":463, "Matt W":617, "Melissa M":616, "Michelle F":188, "Nancy C":602, "Nathan T":308, "Pam H":530, "Patrick F":598, "Paul G":600, "Peggy P":568, "Rita H":608, "Roberta L":527, "Roddrick E":554, "Sara M":622, "Sarah G":472, "Shana J":599, "Sharon H":360, "Sheryl B":261, "Shirley D":25, "Stephanie Clarisse H":620, "Tawanda C":20, "Tim P":612, "Wayne P":87, "Wendy R":317, "Jay J":367, "Mike F":590, "Mike M":78, "Stephanie H":299, "Carolyn C":17, "Deb J":55, "Eric S":96, "Frances B":16, "Heather P":124, "Karen N":81, "R. Otter B":312, "Jenny M":67, "Joanne W":594, "Mitzi S":559, "Nathan P":85, "Veronica M":577, "Zack G":468, "Aaron B":560, "Aimee L":150, "Althea H":46, "Amanda F":375, "Amy W":558, "Amy H":486, "Amy L":61, "Angela S":80, "Anita G":386, "Barb T":195, "Barbara B":8, "Bette S":494, "Brad W":495, "Brandy S":543, "Carren S":440, "Chris S":483, "Christina J":145, "Colleen B":544, "Dana B":517, "Dirk B":445, "Elaine S":281, "Elf N":507, "Elizabeth P":597, "Frank S":395, "Gloria B":5, "Gwen G":587, "Hilary A":171, "Hollis S":103, "Ida F":290, "Jessi M":534, "Jim C":313, "Jim H":377, "Jordan R":580, "Judy P":410, "Kate P":89, "Kirk H":500, "Lauren W":388, "Lindsey E":446, "Lindsey S":340, "Lucius B":330, "Maria C":22, "Mary G":37, "Melissa S":162, "Nancy L":68, "Nina S":95, "Patricia M":74, "Robert K":222, "Robin D":581, "Sally B":301, "Sally A":2, "Sarah H":52, "Sarah E":609, "Seth S":610, "Shash L":325, "Stephanie H":611, "Stephanie T":374, "Steve D":28, "Svetlana G":39, "Terri H":533, "Wendy B":579, "Dawn O":83, "Idenia T":109, "Lisa M":73, "Pat K":60, "Rikki W":112, "Ronda M":75, "Sara Frances D":515, "Stephanie B":12, "Letitia D": 26};
 
       $(function() {
 
@@ -21,7 +20,7 @@
              $("#reporttable0 thead td").removeClass("highlight");
              $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
              return setTimeout(update_date, 5*60*1000)
-         }
+         };
          var timeout = update_date();
 
 
@@ -44,12 +43,12 @@
          };
          add_notes();
 
-         var photos = function() {
+         $("#photos").click(function() {
              var re;
              $.each(staff,function(index,val) {
 
                 re = new RegExp("^"+index,"i");
-                console.log(index);
+                //console.log(index);
 
                 $("tbody td.details_shifts").filter(function() {
                    name = $(this).text();
@@ -57,11 +56,6 @@
                 }).html("<img src='http://intranet.dbrl.org/dir/staff/photos/"+val+"_sm.jpg' height='80' title='"+index+"' />");
 
              });
-         }
-         $("#photos").click(function() {
-            if (window.confirm("Didn't I say not to click the button!? Continue anyway?")) {
-               photos();
-            }
          });
 
          // removed redundant desk labels and add row highlighting
@@ -79,7 +73,7 @@
                 $this.text("");
               }
             });
-         }
+         };
          highlight_desks();
 
          $.ajaxSetup ({
@@ -172,7 +166,7 @@
             endfor;
            ?>
         </ul>
-        <button id="photos">Don't Click This!</button>
+        <button id="photos">Photos!</button>
         </div>
     </div>
     <div id="main" role="main">
