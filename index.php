@@ -1,10 +1,11 @@
+<?php define('VERSION','103'); ?>
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>DBRL Schedule</title>
-  <link rel="stylesheet" href="style.css?1" />
-  <link rel="stylesheet" href="print.css?1" media="print" />
+  <link rel="stylesheet" href="style.css?<?=VERSION?>" />
+  <link rel="stylesheet" href="print.css?<?=VERSION?>" media="print" />
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
   <script src="jquery.floatheader.min.js"></script>
 
@@ -79,6 +80,10 @@
          $.ajaxSetup ({
     		cache: false
 	      });
+
+         $("#email").focus(function() { if ( $(this).val() == "Username" ) { $(this).val("");  } });
+         $("#email").blur(function() { if ( !$(this).val() ) { $(this).val("Username");  } });
+
 
          // lock the container height
          $("#schedule").height($("#schedule").height());
@@ -155,7 +160,19 @@
 </head>
 <body>
     <div id="container">
+    <div id="topnav">
+            <a href="/">Intranet</a> &nbsp;|&nbsp; <a href="http://www.dbrl.org/" target="_blank">DBRL.org</a>
+            <form action="http://schedule.dbrl.org/login.asp" method="post" name="login" id="login" target="_blank">
+            <a href="http://schedule.dbrl.org/" target="_blank">PeopleWhere</a>&trade; Sign-in &nbsp;
+    	    <input type="hidden" value="signin" name="staffaction">
+			<input type="text" name="email" value="Username" size="8" id="email" class="input">
+			<input type="password" name="password" size="8" class="input"> <input type="submit" value="Go">
+		    </form>
+           </div>
+        </div>
     <div id="header">
+
+
         <h1>DBRL Public Services Schedule</h1>
         <div id="nav">
         <ul id="list">
