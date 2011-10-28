@@ -26,8 +26,8 @@ td { vertical-align: top; }
 #topnav { background: #000; color: #FFF; padding: 6px; position: relative; }
 #topnav a { color: #FFF; text-decoration: none; }
 #topnav a:hover { color: #FFBF2D; text-decoration: underline; }
-#login { display: inline; position:absolute; top:2px; right:6px; }
-#login .input { font-size:85%; }
+#login { display: inline; position:absolute; top:3px; right:6px; }
+#login input { font-size:85%; }
 
 
 #nav { overflow: auto; }

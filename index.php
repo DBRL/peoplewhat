@@ -165,8 +165,8 @@
             <form action="http://schedule.dbrl.org/login.asp" method="post" name="login" id="login" target="_blank">
             <a href="http://schedule.dbrl.org/" target="_blank">PeopleWhere</a>&trade; Sign-in &nbsp;
     	    <input type="hidden" value="signin" name="staffaction">
-			<input type="text" name="email" value="Username" size="8" id="email" class="input">
-			<input type="password" name="password" size="8" class="input"> <input type="submit" value="Go">
+			<input type="text" name="email" value="Username" size="8" id="email">
+			<input type="password" name="password" size="8"> <input type="submit" value="Go">
 		    </form>
            </div>
         </div>
