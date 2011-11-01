@@ -1,4 +1,4 @@
-<?php define('VERSION','103'); ?>
+<?php define('VERSION','104'); ?>
 <!doctype html>
 <html>
 <head>
@@ -15,13 +15,15 @@
       $(function() {
 
          // auto highlight current hour when on today's schedule
-         var update_date = function(){
+         var update_time = function(){
             var date = new Date();
             var hours = date.getHours();
             var ampm = "AM";
-            if ( hours > 12 ) {
-               hours = hours - 12;
+            if ( hours >= 12 ) {
                ampm = "PM";
+            }
+            if ( hours > 12 ) {
+                hours = hours - 12;
             }
 
             $("thead td").removeClass("highlight");
@@ -31,9 +33,9 @@
                return $(this).text().match(re);
             }).addClass("highlight");
 
-            return setTimeout(update_date, 5*60*1000);
+            return setTimeout(update_time, 5*60*1000);
          };
-         var timeout = update_date();
+         var timeout = update_time();
 
 
          // add search box
@@ -123,7 +125,7 @@
                      $( "#reporttable" + id ).floatHeader();
 
                      if ( id == 0 ) {
-                        timeout = update_date();
+                        timeout = update_time();
                      } else {
                         clearTimeout(timeout);
                      }
