@@ -16,11 +16,22 @@
 
          // auto highlight current hour when on today's schedule
          var update_date = function(){
-             //console.log('!');
-             var date = new Date();
-             $("#reporttable0 thead td").removeClass("highlight");
-             $("#reporttable0 thead td:nth-child("+(date.getHours()-5)+")").addClass("highlight");
-             return setTimeout(update_date, 5*60*1000)
+            var date = new Date();
+            var hours = date.getHours();
+            var ampm = "AM";
+            if ( hours > 12 ) {
+               hours = hours - 12;
+               ampm = "PM";
+            }
+
+            $("thead td").removeClass("highlight");
+            var re = new RegExp("^"+hours+" "+ampm,"i");
+
+            $("thead td").filter(function() {
+               return $(this).text().match(re);
+            }).addClass("highlight");
+
+            return setTimeout(update_date, 5*60*1000);
          };
          var timeout = update_date();
 

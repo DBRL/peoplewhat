@@ -23,7 +23,17 @@ td { vertical-align: top; }
 #header { margin-top: 15px; padding: 0 10px 0 5px;  }
 #header h1 { font: 1.6em Tahoma, sans-serif;  font-weight: normal; margin: 0; display:none; }
 
-#topnav { background: #000; color: #FFF; padding: 6px; position: relative; }
+#topnav {
+    background: #000;
+    background: -moz-linear-gradient(top, #222222 0%, #000000 70%);
+    background: -webkit-linear-gradient(top, #222222 0%,#000000 70%);
+    background: -o-linear-gradient(top, #222222 0%,#000000 70%);
+    background: -ms-linear-gradient(top, #222222 0%,#000000 70%);
+    background: linear-gradient(top, #222222 0%,#000000 70%);
+    color: #FFF;
+    padding: 6px;
+    position: relative;
+}
 #topnav a { color: #FFF; text-decoration: none; }
 #topnav a:hover { color: #FFBF2D; text-decoration: underline; }
 #login { display: inline; position:absolute; top:3px; right:6px; }
