@@ -2,26 +2,7 @@
 
 define('TESTING',false);
 
-///home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/
-define('APP_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR );
-define('SETTINGS_FILE', APP_PATH . 'settings.local.php');
-
-if (file_exists(SETTINGS_FILE)) {
-    include_once SETTINGS_FILE;
-}
-
-define('NUM_SCHEDULES',10);
-define('USERNAME','npauley');
-define('PASSWORD','npauley');
-
-define('SCHEDULES_PATH',APP_PATH);
-
-define('COOKIEFILE', APP_PATH . 'cookies.txt');
-define('LOGIN_URL','http://schedule.dbrl.org/login.asp?staffaction=signin&email=');
-define('REPORT_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
-
-$librarians = array( 'Angela S', 'Betsy C', 'Brandy S', 'Hilary A', 'Hollis S', 'Judy P', 'Kirk H',
-    'Lauren W', 'Nina S', 'Patricia M', 'Sally A', 'Sarah H', 'Seth S', 'Svetlana G' );
+include_once 'config.php';
 
 $dates = array();
 
