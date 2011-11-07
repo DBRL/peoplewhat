@@ -1,4 +1,7 @@
-<?php define('VERSION','104'); ?>
+<?php
+   define('VERSION','105');
+   require_once 'config.php';
+?>
 <!doctype html>
 <html>
 <head>
@@ -97,32 +100,36 @@
          $("#email").focus(function() { if ( $(this).val() == "Username" ) { $(this).val("");  } });
          $("#email").blur(function() { if ( !$(this).val() ) { $(this).val("Username");  } });
 
+         $("#department").change( function() {
+             var dept_id = $(this).val();
+             console.log('dept_id: ' + dept_id);
+             update_schedule(dept_id, 0);
+
+         });
 
          // lock the container height
          $("#schedule").height($("#schedule").height());
 
          var $floatHeader = $("#reporttable0").floatHeader();
 
-         $("#list a").click(function(e) {
-             e.preventDefault();
-             $that = $(this);
-             var id = $that.attr("rel");
+
+         var update_schedule = function( dept_id, schedule_id ) {
 
              $("#schedule").fadeOut(200, function() {
 
                  $.ajax({
-                  url: 'schedule' + id + '.html',
+                  url: 'schedules/' + dept_id + '_' + schedule_id + '.html',
                   success: function(data) {
                      $("#schedule").html(data);
                   },
                   complete: function(data) {
 
-                     $("#list li").removeClass("active").eq(id).addClass("active");
+                     $("#list li").removeClass("active").eq(schedule_id).addClass("active");
                      $("#schedule").fadeIn(300);
                      add_search();
                      add_notes();
                      highlight_desks();
-                     $( "#reporttable" + id ).floatHeader();
+                     $( "#reporttable" + schedule_id ).floatHeader();
 
                      if ( id == 0 ) {
                         timeout = update_time();
@@ -135,6 +142,16 @@
                 });
 
              });
+
+         };
+
+
+         $("#list a").click(function(e) {
+             e.preventDefault();
+             $that = $(this);
+             var schedule_id = $that.attr("rel");
+
+             update_schedule( $("#department").val(), schedule_id );
 
          });
 
@@ -175,6 +192,13 @@
     <div id="container">
     <div id="topnav">
             <a href="/">Intranet</a> &nbsp;|&nbsp; <a href="http://www.dbrl.org/" target="_blank">DBRL.org</a>
+            <select name="department" id="department">
+        <?php
+            foreach ( $departments as $dept_id => $dept ):
+                echo "<option value='{$dept_id}'>{$dept}</option>";
+            endforeach;
+        ?>
+            </select>
             <form action="http://schedule.dbrl.org/login.asp" method="post" name="login" id="login" target="_blank">
             <a href="http://schedule.dbrl.org/" target="_blank">PeopleWhere</a>&trade; Sign-in &nbsp;
     	    <input type="hidden" value="signin" name="staffaction">
@@ -201,7 +225,7 @@
     </div>
     <div id="main" role="main">
        <div id="schedule">
-        <?php echo file_get_contents('/home/www/intranet.dbrl.org/www/app/peoplewhat/schedule0.html'); ?>
+        <?php echo file_get_contents( SCHEDULES_PATH . '9_0.html'); ?>
        </div>
     </div>
 

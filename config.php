@@ -7,7 +7,7 @@
  
 ///home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/
 
-define('NUM_SCHEDULES',3);
+define('NUM_SCHEDULES',7);
 define('USERNAME','npauley');
 define('PASSWORD','npauley');
 
@@ -17,19 +17,18 @@ define('SCHEDULES_PATH', APP_PATH . 'schedules' . DIRECTORY_SEPARATOR);
 
 define('COOKIEFILE', APP_PATH . 'cookies.txt');
 define('LOGIN_URL','http://schedule.dbrl.org/login.asp?staffaction=signin&email=');
-define('REPORT_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
 
-define('BASE_SCHEDULE_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
+define('SCHEDULE_FETCH_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
 
 // Organization IDs
 //&orgid=9
 $departments = array(
+    9 => 'Public Services',
     3 => 'Callaway County Public Library',
     4 => 'Southern Boone County',
     5 => 'Outreach',
     7 => 'Circulation - Front Desk',
     8 => 'Circulation - Shelving',
-    9 => 'Public Services',
     10 => 'Maintenance',
     11 => 'Regional Services'
 );

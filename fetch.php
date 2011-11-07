@@ -2,7 +2,7 @@
 
 define('TESTING',false);
 
-include_once 'config.php';
+require_once 'config.php';
 
 $dates = array();
 
@@ -35,19 +35,19 @@ $crap_to_delete = array(
  * @return string
  */
 function get_schedule( $date, $dept_id ){
-    // Parse cookie file to find session ID
-    $cookie = file_get_contents(COOKIEFILE);
-    $bits = explode("\t",$cookie);
-    $cookie_name = rtrim($bits[5]);
-    $session_id = rtrim($bits[6]);
 
-    //echo '['.$session_id.']';
+    static $cookie_name, $session_id;
 
-    // Fetch the report using session ID
+    // Parse cookie file to find session ID; save it for later
+    if (!isset($session_id)) {
+        $cookie = file_get_contents(COOKIEFILE);
+        $bits = explode("\t",$cookie);
+        $cookie_name = rtrim($bits[5]);
+        $session_id = rtrim($bits[6]);
+        echo 'cookie!';
+    }
 
-    //$url = 'http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1';
-    //$url = REPORT_URL . '&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011';
-    $url = BASE_SCHEDULE_URL . "&orgid={$dept_id}&startdate={$date}&enddate={$date}";
+    $url = SCHEDULE_FETCH_URL . "&orgid={$dept_id}&startdate={$date}&enddate={$date}";
 
     if (TESTING) {
         var_dump ($url);
