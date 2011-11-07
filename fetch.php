@@ -17,7 +17,7 @@ endfor;
 $crap_to_delete = array(
   "/<span class='details_date'>.+<br \/><\/span>\n/",
   "/<span class='details_time'>.+<br \/><\/span>\n/",
-  "/<span class='details_orgcode'>PS<\/span>\n/",
+  "/<span class='details_orgcode'>.+<\/span>\n/",
   "/<span class='details_bull'> \* <\/span>\n/",
   "/<span class='details_orgname'>Public Services<\/span>\n/",
   "/<span class='details_orgs'> <br \/><\/span>\n/",
@@ -34,7 +34,7 @@ $crap_to_delete = array(
  * @param $date
  * @return string
  */
-function get_schedule( $date ){
+function get_schedule( $date, $dept_id ){
     // Parse cookie file to find session ID
     $cookie = file_get_contents(COOKIEFILE);
     $bits = explode("\t",$cookie);
@@ -47,9 +47,9 @@ function get_schedule( $date ){
 
     //$url = 'http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1';
     //$url = REPORT_URL . '&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011';
-    $url = REPORT_URL . "&startdate={$date}&enddate={$date}";
+    $url = BASE_SCHEDULE_URL . "&orgid={$dept_id}&startdate={$date}&enddate={$date}";
 
-    if (false && TESTING) {
+    if (TESTING) {
         var_dump ($url);
     }
 
@@ -121,7 +121,7 @@ function extract_table_html ( &$html, $i ) {
 function write_table ( $file, &$table ) {
     static $file_mode = 'w';
 
-    if (!$fh = fopen(SCHEDULES_PATH.$file, $file_mode)) {
+    if (!$fh = fopen($file, $file_mode)) {
          echo "Cannot open file ({$file})";
          exit;
     }
@@ -155,14 +155,6 @@ function peoplewhere_login(){
 }
 
 
-
-/*
-if ( isset($_GET['date']) && $_GET['date'] ) {
-    $dates = array($_GET['date']);
-}
-var_dump($dates);
-*/
-
 ?>
 <html>
 <body>
@@ -172,17 +164,23 @@ var_dump($dates);
 
 peoplewhere_login();
 
-$i = 0;
-foreach ($dates as $d):
-        echo "<p>{$d}</p>\n";
-    $html = get_schedule( $d );
+foreach ($departments as $dept_id => $dept):
 
-    if (TESTING) {
-        write_table('schedule'.$i.'_.html', $html);
-    }
+    $i = 0;
+    foreach ($dates as $day):
+        echo "<p>{$dept} ({$dept_id}) - {$day}</p>\n";
+        $html = get_schedule( $day, $dept_id );
 
-    $table = extract_table_html($html, $i);
-    write_table('schedule'.$i++.'.html', $table);
+        if (TESTING) { echo '<p>'.strlen($html)."</p>\n"; }
+
+        //write_table( SCHEDULES_PATH . $dept_id .'__'.$i++.'.html', $html);
+
+        $table = extract_table_html($html, $i);
+
+        write_table( SCHEDULES_PATH . $dept_id .'_'.$i++.'.html', $table);
+
+    endforeach;
+
 endforeach;
 ?>
 <p>Done.</p>
