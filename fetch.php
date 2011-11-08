@@ -2,26 +2,7 @@
 
 define('TESTING',false);
 
-///home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/
-define('APP_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR );
-define('SETTINGS_FILE', APP_PATH . 'settings.local.php');
-
-if (file_exists(SETTINGS_FILE)) {
-    include_once SETTINGS_FILE;
-}
-
-define('NUM_SCHEDULES',10);
-define('USERNAME','npauley');
-define('PASSWORD','npauley');
-
-define('SCHEDULES_PATH',APP_PATH);
-
-define('COOKIEFILE', APP_PATH . 'cookies.txt');
-define('LOGIN_URL','http://schedule.dbrl.org/login.asp?staffaction=signin&email=');
-define('REPORT_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
-
-$librarians = array( 'Angela S', 'Betsy C', 'Brandy S', 'Hilary A', 'Hollis S', 'Judy P', 'Kirk H',
-    'Lauren W', 'Nina S', 'Patricia M', 'Sally A', 'Sarah H', 'Seth S', 'Svetlana G' );
+require_once 'config.php';
 
 $dates = array();
 
@@ -36,13 +17,13 @@ endfor;
 $crap_to_delete = array(
   "/<span class='details_date'>.+<br \/><\/span>\n/",
   "/<span class='details_time'>.+<br \/><\/span>\n/",
-  "/<span class='details_orgcode'>PS<\/span>\n/",
+  "/<span class='details_orgcode'>.+<\/span>\n/",
   "/<span class='details_bull'> \* <\/span>\n/",
-  "/<span class='details_orgname'>Public Services<\/span>\n/",
   "/<span class='details_orgs'> <br \/><\/span>\n/",
   "/<span class='details_orgcode'><br \/>PS<\/span>\n/",
   "/<span class='details_role'>.+<br \/><\/span>\n/",
-  "/<span class='details_orgname'><br \/>Public Services<\/span>/",
+  "/<span class='details_orgname'>.+<\/span>\n*/",
+  "/<span class='details_staffname'>\*No Staff Scheduled\*<br \/><\/span>/",
   "/\n<span class='details_unscheduled'>\n<span class='details_staffname'>\*No Staff Scheduled\*<br \/><\/span><\/span>/",
   "/<span class='details_shifts'>\n/",
   "/:00/",
@@ -53,22 +34,21 @@ $crap_to_delete = array(
  * @param $date
  * @return string
  */
-function get_schedule( $date ){
-    // Parse cookie file to find session ID
-    $cookie = file_get_contents(COOKIEFILE);
-    $bits = explode("\t",$cookie);
-    $cookie_name = rtrim($bits[5]);
-    $session_id = rtrim($bits[6]);
+function get_schedule( $date, $dept_id ){
 
-    //echo '['.$session_id.']';
+    static $cookie_name, $session_id;
 
-    // Fetch the report using session ID
+    // Parse cookie file to find session ID; save it for later
+    if (!isset($session_id)) {
+        $cookie = file_get_contents(COOKIEFILE);
+        $bits = explode("\t",$cookie);
+        $cookie_name = rtrim($bits[5]);
+        $session_id = rtrim($bits[6]);
+    }
 
-    //$url = 'http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011&selectedstaffid=142&orgid=9&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1';
-    //$url = REPORT_URL . '&startdate=10%2F14%2F2011&enddate=10%2F11%2F2011';
-    $url = REPORT_URL . "&startdate={$date}&enddate={$date}";
+    $url = SCHEDULE_FETCH_URL . "&orgid={$dept_id}&startdate={$date}&enddate={$date}";
 
-    if (false && TESTING) {
+    if (TESTING) {
         var_dump ($url);
     }
 
@@ -92,7 +72,7 @@ function get_schedule( $date ){
  * @param $i
  * @return mixed|string
  */
-function extract_table_html ( &$html, $i ) {
+function extract_table_html ( &$html, $i) {
     global $crap_to_delete, $librarians;
 
     // extract the main schedule table
@@ -105,12 +85,15 @@ function extract_table_html ( &$html, $i ) {
     $table = str_replace('<tr',"\n\n<tr",$table);
     $table = str_replace('<td',"\n<td",$table);
 
+
+    ///write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $table);
+
     $table = preg_replace($crap_to_delete,'',$table);
 
     // more cleanup
     $table = str_replace('</span></span>','</span>',$table);
 
-    $table = preg_replace("/\n<span class='details_staffname'>(\w+), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
+    $table = preg_replace("/\n<span class='details_staffname'>(\w+[ -\w]*), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
     $table = str_replace('></td>','>&nbsp;</td>', $table);
 
     // set appropriate <thead>
@@ -140,7 +123,7 @@ function extract_table_html ( &$html, $i ) {
 function write_table ( $file, &$table ) {
     static $file_mode = 'w';
 
-    if (!$fh = fopen(SCHEDULES_PATH.$file, $file_mode)) {
+    if (!$fh = fopen($file, $file_mode)) {
          echo "Cannot open file ({$file})";
          exit;
     }
@@ -174,14 +157,6 @@ function peoplewhere_login(){
 }
 
 
-
-/*
-if ( isset($_GET['date']) && $_GET['date'] ) {
-    $dates = array($_GET['date']);
-}
-var_dump($dates);
-*/
-
 ?>
 <html>
 <body>
@@ -191,17 +166,23 @@ var_dump($dates);
 
 peoplewhere_login();
 
-$i = 0;
-foreach ($dates as $d):
-        echo "<p>{$d}</p>\n";
-    $html = get_schedule( $d );
+foreach ($departments as $dept_id => $dept):
 
-    if (TESTING) {
-        write_table('schedule'.$i.'_.html', $html);
-    }
+    $i = 0;
+    foreach ($dates as $day):
+        echo "<p>{$dept} ({$dept_id}) - {$day}</p>\n";
+        $html = get_schedule( $day, $dept_id );
 
-    $table = extract_table_html($html, $i);
-    write_table('schedule'.$i++.'.html', $table);
+        if (TESTING) { echo '<p>'.strlen($html)."</p>\n"; }
+
+        write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $html);
+
+        $table = extract_table_html($html, $i);
+
+        write_table( SCHEDULES_PATH . $dept_id .'_'.$i++.'.html', $table);
+
+    endforeach;
+
 endforeach;
 ?>
 <p>Done.</p>
