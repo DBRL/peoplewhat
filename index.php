@@ -112,8 +112,6 @@
          });
 
          // Initializations
-         // lock the container height
-         $("#schedule").height($("#schedule").height());
          $("thead tr:nth-child(1) td:first").append(" &bull; " + departments["9"]);
          var $floatHeader = $("#reporttable0").floatHeader();
 
