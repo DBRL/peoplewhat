@@ -1,4 +1,3 @@
-schedule*.html
 .idea*
 cookies.txt
-
+schedules/*.html

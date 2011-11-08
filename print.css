@@ -1,3 +1,4 @@
+body { background: #FFF; }
 #topnav, #header, #q { display: none; }
 thead { background: #999; }
 thead .highlight { background: inherit; color: #FFF; }
