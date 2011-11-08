@@ -1,12 +1,6 @@
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
 html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
 body { margin: 0; font-size: 13px; line-height: 1.231;
-    background: #FFF;
-    background: -moz-linear-gradient(top, #EEEEEE 0%, #FFFFFF 200px);
-    background: -webkit-linear-gradient(top, #EEEEEE 0%, #FFFFFF 200px);
-    background: -o-linear-gradient(top, #EEEEEE 0%, #FFFFFF 200px);
-    background: -ms-linear-gradient(top, #EEEEEE 0%, #FFFFFF 200px);
-    background: linear-gradient(top, #EEEEEE 0%, #FFFFFF 200px);
  }
 body, button, input, select, textarea { font-family: "lucida grande", verdana, sans-serif; color: #222; }
 
@@ -35,7 +29,7 @@ td { vertical-align: top; }
     background: -webkit-linear-gradient(top, #222222 0%,#000000 70%);
     background: -o-linear-gradient(top, #222222 0%,#000000 70%);
     background: -ms-linear-gradient(top, #222222 0%,#000000 70%);
-    background: linear-gradient(top, #222222 0%,#000000 70%);
+    /*background: linear-gradient(top, #222222 0%,#000000 70%);*/
     color: #FFF;
     position: relative;
     padding: 0 8px;
@@ -43,13 +37,20 @@ td { vertical-align: top; }
 #topnav a { color: #FFF; text-decoration: none; }
 #topnav a:hover { color: #FFBF2D; text-decoration: underline; }
 
-#dept-selector { display:inline-block; height:100%; margin-left: 1em; padding: 0 1em; background: #EEE;}
+#dept-selector { display:inline-block; height:100%; margin-left: 1em; padding: 0 1em; background: #DDD;}
 #department { margin:7px 0; }
 
 #login { display: inline; position:absolute; top:6px; right:6px; }
 #login input { font-size:85%; }
 
-#header { padding: 13px 10px 0 5px;  }
+#header { padding: 13px 10px 13px 5px;
+    background: #FFF;
+    background: -moz-linear-gradient(top, #DDDDDD 0%, #EEEEEE 30%, #FFFFFF 100%);
+    background: -webkit-linear-gradient(top, #DDDDDD 0%, #EEEEEE 30%, #FFFFFF 100%);
+    background: -o-linear-gradient(top, #DDDDDD 0%, #EEEEEE 30%, #FFFFFF 100%);
+    background: -ms-linear-gradient(top, #DDDDDD 0%, #EEEEEE 30%, #FFFFFF 100%);
+    /*background: linear-gradient(top, #DDDDDD 0%, #EEEEEE 30%, #FFFFFF 100%);*/
+}
 #header h1 { font: 1.6em Tahoma, sans-serif;  font-weight: normal; margin: 0; display:none; }
 #nav { overflow: auto; }
 
@@ -79,7 +80,7 @@ td { vertical-align: top; }
     width: 80%;
 }
 
-#main { clear:both; padding: 10px 0 10px 5px; }
+#main { clear:both; padding: 0 0 10px 5px; }
 
 .highlight, td.match { background: #ffbf2d; color: #000; }
 
