@@ -175,7 +175,7 @@ foreach ($departments as $dept_id => $dept):
 
         if (TESTING) { echo '<p>'.strlen($html)."</p>\n"; }
 
-        write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $html);
+        //write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $html);
 
         $table = extract_table_html($html, $i);
 
