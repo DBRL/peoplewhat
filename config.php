@@ -7,7 +7,7 @@
  
 ///home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/
 
-define('NUM_SCHEDULES',7);
+define('NUM_SCHEDULES',10);
 define('USERNAME','npauley');
 define('PASSWORD','npauley');
 
@@ -24,13 +24,13 @@ define('SCHEDULE_FETCH_URL','http://schedule.dbrl.org/reports/schedule.asp?selec
 //&orgid=9
 $departments = array(
     9 => 'Public Services',
-    3 => 'Callaway County Public Library',
-    4 => 'Southern Boone County',
-    5 => 'Outreach',
-    7 => 'Circulation - Front Desk',
-    8 => 'Circulation - Shelving',
+    7 => 'Circ-Front Desk',
+    8 => 'Circ-Shelving',
+    3 => 'CCPL',
     10 => 'Maintenance',
-    11 => 'Regional Services'
+    5 => 'Outreach',
+    11 => 'Regional Services',
+    4 => 'SBCPL'
 );
 
 $librarians = array( 'Angela S', 'Betsy C', 'Brandy S', 'Hilary A', 'Hollis S', 'Judy P', 'Kirk H',

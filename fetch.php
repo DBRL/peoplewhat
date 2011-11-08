@@ -19,11 +19,11 @@ $crap_to_delete = array(
   "/<span class='details_time'>.+<br \/><\/span>\n/",
   "/<span class='details_orgcode'>.+<\/span>\n/",
   "/<span class='details_bull'> \* <\/span>\n/",
-  "/<span class='details_orgname'>Public Services<\/span>\n/",
   "/<span class='details_orgs'> <br \/><\/span>\n/",
   "/<span class='details_orgcode'><br \/>PS<\/span>\n/",
   "/<span class='details_role'>.+<br \/><\/span>\n/",
-  "/<span class='details_orgname'><br \/>Public Services<\/span>/",
+  "/<span class='details_orgname'>.+<\/span>\n*/",
+  "/<span class='details_staffname'>\*No Staff Scheduled\*<br \/><\/span>/",
   "/\n<span class='details_unscheduled'>\n<span class='details_staffname'>\*No Staff Scheduled\*<br \/><\/span><\/span>/",
   "/<span class='details_shifts'>\n/",
   "/:00/",
@@ -44,7 +44,6 @@ function get_schedule( $date, $dept_id ){
         $bits = explode("\t",$cookie);
         $cookie_name = rtrim($bits[5]);
         $session_id = rtrim($bits[6]);
-        echo 'cookie!';
     }
 
     $url = SCHEDULE_FETCH_URL . "&orgid={$dept_id}&startdate={$date}&enddate={$date}";
@@ -73,7 +72,7 @@ function get_schedule( $date, $dept_id ){
  * @param $i
  * @return mixed|string
  */
-function extract_table_html ( &$html, $i ) {
+function extract_table_html ( &$html, $i) {
     global $crap_to_delete, $librarians;
 
     // extract the main schedule table
@@ -86,12 +85,15 @@ function extract_table_html ( &$html, $i ) {
     $table = str_replace('<tr',"\n\n<tr",$table);
     $table = str_replace('<td',"\n<td",$table);
 
+
+    ///write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $table);
+
     $table = preg_replace($crap_to_delete,'',$table);
 
     // more cleanup
     $table = str_replace('</span></span>','</span>',$table);
 
-    $table = preg_replace("/\n<span class='details_staffname'>(\w+), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
+    $table = preg_replace("/\n<span class='details_staffname'>(\w+[-\w]*), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
     $table = str_replace('></td>','>&nbsp;</td>', $table);
 
     // set appropriate <thead>
@@ -173,7 +175,7 @@ foreach ($departments as $dept_id => $dept):
 
         if (TESTING) { echo '<p>'.strlen($html)."</p>\n"; }
 
-        //write_table( SCHEDULES_PATH . $dept_id .'__'.$i++.'.html', $html);
+        write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $html);
 
         $table = extract_table_html($html, $i);
 
