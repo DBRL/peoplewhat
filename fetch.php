@@ -93,7 +93,7 @@ function extract_table_html ( &$html, $i) {
     // more cleanup
     $table = str_replace('</span></span>','</span>',$table);
 
-    $table = preg_replace("/\n<span class='details_staffname'>(\w+[-\w]*), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
+    $table = preg_replace("/\n<span class='details_staffname'>(\w+[ -\w]*), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
     $table = str_replace('></td>','>&nbsp;</td>', $table);
 
     // set appropriate <thead>

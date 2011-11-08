@@ -1,5 +1,5 @@
 <?php
-   define('VERSION','105');
+   define('VERSION','20111108');
    require_once 'config.php';
 ?>
 <!doctype html>
@@ -11,9 +11,14 @@
   <link rel="stylesheet" href="print.css?<?=VERSION?>" media="print" />
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
   <script src="jquery.floatheader.min.js"></script>
+  <script src="init.js?<?=VERSION?>"></script>
 
   <script>
-      var  staff = {"Amanda B":573, "Diana B":14, "Elinor B":7, "Jim S":100, "Judy H":540, "Marlene G":473, "Melanie H":217, "Melissa C":18, "Rebecca B":556, "David M":526, "Joe N":548, "Johnny J":54, "Madeline R":94, "Mike K":497, "Russ N":396, "Ryan G":591, "William B":180, "Betsy C":21, "Doyne M":69, "Scott H":487, "Amanda G":604, "Amber S":426, "Amy Z":528, "Angie R":605, "Anna H":618, "Ashley A":613, "Bronwyn L":552, "Cameron V":586, "Chris S":105, "Christine M":455, "Dave K":619, "Debbie H":585, "Doreen M":542, "Elizabeth H":614, "Emily S":601, "Hala F":567, "Joleen K":476, "Jordan S":314, "Karen M":623, "Kathy W":553, "Katie H":504, "Kim S":606, "Kim M":284, "Kris A":621, "Lindsey A":603, "Liz L":593, "Mary Ann H":41, "Matt S":463, "Matt W":617, "Melissa M":616, "Michelle F":188, "Nancy C":602, "Nathan T":308, "Pam H":530, "Patrick F":598, "Paul G":600, "Peggy P":568, "Rita H":608, "Roberta L":527, "Roddrick E":554, "Sara M":622, "Sarah G":472, "Shana J":599, "Sharon H":360, "Sheryl B":261, "Shirley D":25, "Stephanie Clarisse H":620, "Tawanda C":20, "Tim P":612, "Wayne P":87, "Wendy R":317, "Jay J":367, "Mike F":590, "Mike M":78, "Stephanie H":299, "Carolyn C":17, "Deb J":55, "Eric S":96, "Frances B":16, "Heather P":124, "Karen N":81, "R. Otter B":312, "Jenny M":67, "Joanne W":594, "Mitzi S":559, "Nathan P":85, "Veronica M":577, "Zack G":468, "Aaron B":560, "Aimee L":150, "Althea H":46, "Amanda F":375, "Amy W":558, "Amy H":486, "Amy L":61, "Angela S":80, "Anita G":386, "Barb T":195, "Barbara B":8, "Bette S":494, "Brad W":495, "Brandy S":543, "Carren S":440, "Chris S":483, "Christina J":145, "Colleen B":544, "Dana B":517, "Dirk B":445, "Elaine S":281, "Elf N":507, "Elizabeth P":597, "Frank S":395, "Gloria B":5, "Gwen G":587, "Hilary A":171, "Hollis S":103, "Ida F":290, "Jessi M":534, "Jim C":313, "Jim H":377, "Jordan R":580, "Judy P":410, "Kate P":89, "Kirk H":500, "Lauren W":388, "Lindsey E":446, "Lindsey S":340, "Lucius B":330, "Maria C":22, "Mary G":37, "Melissa S":162, "Nancy L":68, "Nina S":95, "Patricia M":74, "Robert K":222, "Robin D":581, "Sally B":301, "Sally A":2, "Sarah H":52, "Sarah E":609, "Seth S":610, "Shash L":325, "Stephanie H":611, "Stephanie T":374, "Steve D":28, "Svetlana G":39, "Terri H":533, "Wendy B":579, "Dawn O":83, "Idenia T":109, "Lisa M":73, "Pat K":60, "Rikki W":112, "Ronda M":75, "Sara Frances D":515, "Stephanie B":12, "Letitia D": 26};
+
+      if (typeof console == "undefined") { var console = { log: function() {} }; }
+
+      var departments = <?php echo json_encode($departments); ?>;
+
 
       $(function() {
 
@@ -45,7 +50,6 @@
          var add_search = function() {
              var $cell = $("thead tr:nth-child(2) td:first").html("");
              $('<input name="q" id="q" maxlength="10"/>').appendTo($cell).focus();
-             //$("thead tr").eq(1).find("td").eq(0).html('<input name="q" id="q" size="6" />').focus();
          };
          add_search();
 
@@ -100,16 +104,17 @@
          $("#email").focus(function() { if ( $(this).val() == "Username" ) { $(this).val("");  } });
          $("#email").blur(function() { if ( !$(this).val() ) { $(this).val("Username");  } });
 
-         $("#department").change( function() {
+         // select a department
+         $("#department").change(function() {
              var dept_id = $(this).val();
-             console.log('dept_id: ' + dept_id);
+             //console.log('dept_id: ' + dept_id);
              update_schedule(dept_id, 0);
-
          });
 
+         // Initializations
          // lock the container height
          $("#schedule").height($("#schedule").height());
-
+         $("thead tr:nth-child(1) td:first").append(" &bull; " + departments["9"]);
          var $floatHeader = $("#reporttable0").floatHeader();
 
 
@@ -127,11 +132,15 @@
                      $("#list li").removeClass("active").eq(schedule_id).addClass("active");
                      $("#schedule").fadeIn(300);
                      add_search();
-                     add_notes();
+                     // if PS
+                     if ( dept_id == 9 ) {
+                        add_notes();
+                     }
                      highlight_desks();
+                     $("thead tr:nth-child(1) td:first").append(" &bull; " + departments[dept_id]);
                      $( "#reporttable" + schedule_id ).floatHeader();
 
-                     if ( id == 0 ) {
+                     if ( schedule_id == 0 ) {
                         timeout = update_time();
                      } else {
                         clearTimeout(timeout);
@@ -192,6 +201,7 @@
     <div id="container">
     <div id="topnav">
             <a href="/">Intranet</a> &nbsp;|&nbsp; <a href="http://www.dbrl.org/" target="_blank">DBRL.org</a>
+            <div id="dept-selector">
             <select name="department" id="department">
         <?php
             foreach ( $departments as $dept_id => $dept ):
@@ -199,6 +209,7 @@
             endforeach;
         ?>
             </select>
+            </div>
             <form action="http://schedule.dbrl.org/login.asp" method="post" name="login" id="login" target="_blank">
             <a href="http://schedule.dbrl.org/" target="_blank">PeopleWhere</a>&trade; Sign-in &nbsp;
     	    <input type="hidden" value="signin" name="staffaction">
@@ -208,9 +219,6 @@
            </div>
         </div>
     <div id="header">
-
-
-        <h1>DBRL Public Services Schedule</h1>
         <div id="nav">
         <ul id="list">
           <li class="active"><a href="#" rel="0">Today</a></li>
