@@ -9,7 +9,13 @@
   <title>DBRL Schedule</title>
   <link rel="stylesheet" href="style.css?<?=VERSION?>" />
   <link rel="stylesheet" href="print.css?<?=VERSION?>" media="print" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script type="text/javascript">
+    if (typeof jQuery == 'undefined')
+    {
+        document.write("<script src='//files.dbrl.org/js/jquery/jquery-1.7.min.js'><"+"/script>");
+    }
+  </script>
   <script src="jquery.floatheader.min.js"></script>
   <script src="init.js?<?=VERSION?>"></script>
 
