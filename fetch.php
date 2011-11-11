@@ -93,7 +93,9 @@ function extract_table_html ( &$html, $i) {
     // more cleanup
     $table = str_replace('</span></span>','</span>',$table);
 
+    // change LastName, FirstName to FirstName L(ast initial)
     $table = preg_replace("/\n<span class='details_staffname'>(\w+[ -\w]*), (\w+)<\/span>/e","'$2 '.substr('$1',0,1)",$table);
+    // normalize empty td cells
     $table = str_replace('></td>','>&nbsp;</td>', $table);
 
     // set appropriate <thead>
@@ -104,7 +106,8 @@ function extract_table_html ( &$html, $i) {
     $table = str_replace('id="reporttable','id="reporttable'.$i, $table);
 
     // remove empty rows
-    $table = preg_replace("/<tr>\n<td .+>.+\n<\/td>\n(<td .+>&nbsp;<\/td>\n?)+<\/tr>/",'',$table);
+    $table = preg_replace("/<span class='details_unscheduled'>\n<\/span>\n?/",'',$table);
+    $table = preg_replace("/<tr>\n<td .+>.+\n<\/td>\n(<td .+>\n?&nbsp;<\/td>\n?)+<\/tr>/",'',$table);
 
     // mark the librarians
     foreach ( $librarians as $awesome ):
