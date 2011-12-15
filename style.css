@@ -100,7 +100,7 @@ tbody tr.desk { border-top: 2px solid #BABCC4; }
 tbody tr:hover { background: #FFD574 !important; }
 
 
-.notes { width:98%; }
+.notes { width:98%; min-height: 20px;}
 
 
 #footer { display:none; padding: 1.5em; background: #CCC; }
