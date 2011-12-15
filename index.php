@@ -60,7 +60,7 @@
          add_search();
 
          var add_note = function(label, forname) {
-             $('<tr class="desk"><td class="category" colspan="4">'+label+'</td><td colspan="56"><input type="text" name="'+forname+'" class="notes" /></td></tr>')
+             $('<tr class="desk"><td class="category" colspan="4">'+label+'</td><td colspan="56"><textarea rows="1" name="'+forname+'" class="notes" /></td></tr>')
                .appendTo(".reporttable");
          };
          var add_notes = function(){
