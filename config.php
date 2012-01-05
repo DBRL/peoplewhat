@@ -26,10 +26,10 @@ $departments = array(
     9 => 'Public Services',
     7 => 'Circ-Front Desk',
     8 => 'Circ-Shelving',
-    3 => 'CCPL',
-    10 => 'Maintenance',
+   // 3 => 'CCPL',
+   // 10 => 'Maintenance',
     5 => 'Outreach',
-    11 => 'Regional Services',
+   // 11 => 'Regional Services',
     4 => 'SBCPL'
 );
 
