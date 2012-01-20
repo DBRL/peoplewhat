@@ -6,13 +6,14 @@ require_once 'config.php';
 
 $dates = array();
 
-for ( $i = 0; $i < NUM_SCHEDULES; $i++ ):
+// override to fetch 12 days worth of schedules for manager review
+$num_schedules = ( isset($_GET['extra']) && $_GET['extra'] = 1 ) ? 12 : NUM_SCHEDULES;
+
+for ( $i = 0; $i < $num_schedules; $i++ ):
     $dates[] = date('m/d/Y', strtotime($i.' days'));
 endfor;
 
-//$dates = array('10/31/2011');
 //var_dump ($dates);
-
 
 $crap_to_delete = array(
   "/<span class='details_date'>.+<br \/><\/span>\n/",
