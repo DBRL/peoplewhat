@@ -82,7 +82,7 @@ td { vertical-align: top; }
 
 #main { clear:both; padding: 0 0 10px 5px; }
 
-.highlight, td.match { background: #ffbf2d; color: #000; }
+.highlight, .match  { background: #ffbf2d !important; color: #000; }
 
 .reporttable { background: #FFF; }
 
