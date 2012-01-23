@@ -73,7 +73,7 @@ function get_schedule( $date, $dept_id ){
  * @param $i
  * @return mixed|string
  */
-function extract_table_html ( &$html, $i) {
+function extract_table_html ( &$html, $i, $dept_id) {
     global $crap_to_delete, $librarians;
 
     // extract the main schedule table
@@ -118,12 +118,13 @@ function extract_table_html ( &$html, $i) {
     endforeach;
 
     // add schedule notes
-    $notes = '<tr class="desk notes"><td class="category" colspan="4">Weekend</td><td colspan="56" id="weekend"></td></tr>'."\n";
-    $notes .= '<tr class="desk notes"><td class="category" colspan="4">Vacations</td><td colspan="56" id="vacations"></td></tr>'."\n";
-    $notes .= '<tr class="desk notes"><td class="category" colspan="4">Changes</td><td colspan="56" id="changes"></td></tr>'."\n";
+    if ( $dept_id === 9 ) {
+        $notes = '<tr class="desk notes"><td class="category" colspan="4">Weekend</td><td colspan="56" id="weekend"></td></tr>'."\n";
+        $notes .= '<tr class="desk notes"><td class="category" colspan="4">Vacations</td><td colspan="56" id="vacations"></td></tr>'."\n";
+        $notes .= '<tr class="desk notes"><td class="category" colspan="4">Changes</td><td colspan="56" id="changes"></td></tr>'."\n";
 
-    $table = str_replace('</tbody>', $notes.'</tbody>', $table);
-
+        $table = str_replace('</tbody>', $notes.'</tbody>', $table);
+    }
 
     return $table;
 }
@@ -191,7 +192,7 @@ foreach ($departments as $dept_id => $dept):
 
         //write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $html);
 
-        $table = extract_table_html($html, $i);
+        $table = extract_table_html($html, $i, $dept_id);
 
         write_table( SCHEDULES_PATH . $dept_id .'_'.$i++.'.html', $table);
 
