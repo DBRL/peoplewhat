@@ -6,13 +6,14 @@ require_once 'config.php';
 
 $dates = array();
 
-for ( $i = 0; $i < NUM_SCHEDULES; $i++ ):
+// override to fetch 12 days worth of schedules for manager review
+$num_schedules = ( isset($_GET['extra']) && $_GET['extra'] = 1 ) ? 12 : NUM_SCHEDULES;
+
+for ( $i = 0; $i < $num_schedules; $i++ ):
     $dates[] = date('m/d/Y', strtotime($i.' days'));
 endfor;
 
-//$dates = array('10/31/2011');
 //var_dump ($dates);
-
 
 $crap_to_delete = array(
   "/<span class='details_date'>.+<br \/><\/span>\n/",
@@ -115,6 +116,14 @@ function extract_table_html ( &$html, $i) {
     foreach ( $librarians as $awesome ):
         $table = preg_replace("/<td colspan='4' class='details_shifts'>($awesome)<\/td>/","<td colspan='4' class='details_shifts librarian'>$1</td>",$table);
     endforeach;
+
+    // add schedule notes
+    $notes = '<tr class="desk notes"><td class="category" colspan="4">Weekend</td><td colspan="56" id="weekend"></td></tr>'."\n";
+    $notes .= '<tr class="desk notes"><td class="category" colspan="4">Vacations</td><td colspan="56" id="vacations"></td></tr>'."\n";
+    $notes .= '<tr class="desk notes"><td class="category" colspan="4">Changes</td><td colspan="56" id="changes"></td></tr>'."\n";
+
+    $table = str_replace('</tbody>', $notes.'</tbody>', $table);
+
 
     return $table;
 }
