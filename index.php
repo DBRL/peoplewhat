@@ -12,7 +12,7 @@
       $(function() {
         //cache the scheudle notes
          var schedule_notes;
-         $.getJSON("ps-notes.json", function(data){
+         $.getJSON("schedules/ps-notes.json", function(data){
              schedule_notes = data;
              //console.log("notes: ",schedule_notes);
              add_notes(0, days_of_week[today.getDay()]);
@@ -51,9 +51,6 @@
          };
          add_search();
 
-         var add_note = function(label, value) {
-             $('<tr class="desk"><td class="category" colspan="4">'+label+'</td><td colspan="56">'+value+'</td></tr>').appendTo("#reporttable")
-         };
          var add_notes = function(schedule_id, day){
             // a little complex to describe
             if ( day == "today" ){
@@ -68,9 +65,9 @@
                 //console.log(this_that);
                 var notes = schedule_notes[day][this_that];
                 //console.log(notes);
-                add_note('Off for Weekend',notes['weekend']);
-                add_note('Vacations &amp; Other',notes['vacations']);
-                add_note('Schedules Changes',notes['changes']);
+                $("#weekend").text(notes['weekend']);
+                $("#vacations").text(notes['vacations']);
+                $("#changes").text(notes['changes']);
             }
          };
 
@@ -105,6 +102,8 @@
                 $this.text("");
               }
             });
+            // divide out the notes section
+            $(".notes:eq(0)").css("border-top","3px solid");
          };
          highlight_desks();
 
@@ -191,9 +190,10 @@
                     $("tbody tr").stop(true, true).fadeIn();
                   }*/
                   
-                  var re = new RegExp("^"+search_text,"i");
+                  //var re = new RegExp("^"+search_text,"i");
+                  var re = new RegExp(search_text,"i");
 
-                  $("tbody td.details_shifts").filter(function() {
+                  $("tbody td.details_shifts, .notes td").filter(function() {
                      return $(this).text().match(re);
                    }).addClass("match");
 
