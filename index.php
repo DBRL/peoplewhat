@@ -197,6 +197,10 @@
                      return $(this).text().match(re);
                    }).addClass("match");
 
+                  if ( $(".match").length > 0 ) {
+                      $this.addClass("match");
+                  }
+
                   /*if ( !$.browser.msie ) {
                     $("tbody tr:not(.match)").stop(true, true).fadeTo(500,0.3);
                   }*/
