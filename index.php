@@ -10,15 +10,23 @@
 
 
       $(function() {
-        //cache the scheudle notes
+
+         $.ajaxSetup ({
+    		cache: false
+	     });
+
+         // cache the schedule notes
          var schedule_notes;
-         $.getJSON("schedules/ps-notes.json", function(data){
-             schedule_notes = data;
-             //console.log("notes: ",schedule_notes);
-             add_notes(0, days_of_week[today.getDay()]);
+         $.ajax({
+            url: "schedules/ps-notes.json",
+            cache: true,
+            dataType: 'json',
+            success: function(data){
+                 schedule_notes = data;
+                 //console.log("notes: ",schedule_notes);
+                 add_notes(0, days_of_week[today.getDay()]);
+            }
          });
-
-
 
          // auto highlight current hour when on today's schedule
          var update_time = function(){
@@ -108,14 +116,12 @@
          highlight_desks();
 
 
-         $.ajaxSetup ({
-    		cache: false
-	      });
+
 
          $("#email").focus(function() { if ( $(this).val() == "Username" ) { $(this).val("");  } });
          $("#email").blur(function() { if ( !$(this).val() ) { $(this).val("Username");  } });
 
-         // select a department
+         // Select a department
          $("#department").change(function() {
              var dept_id = $(this).val();
              //console.log('dept_id: ' + dept_id);
@@ -126,7 +132,7 @@
          $("thead tr:nth-child(1) td:first").append(" &bull; " + departments["9"]);
          var $floatHeader = $("#reporttable0").floatHeader();
 
-
+         // Fetch and display schedule
          var update_schedule = function( dept_id, schedule_id, day ) {
 
              $("#schedule").fadeOut(200, function() {
@@ -163,7 +169,7 @@
 
          };
 
-
+         // Change schedule
          $("#list a").click(function(e) {
              e.preventDefault();
              $that = $(this);
@@ -173,6 +179,7 @@
 
          });
 
+         // Live search
          $("#q").live('keyup', function(e){
               $this = $(this);
               search_text = $this.val();
