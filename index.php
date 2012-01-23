@@ -1,32 +1,24 @@
-<?php
-   define('VERSION','20111108');
-   require_once 'config.php';
-?>
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>DBRL Schedule</title>
-  <link rel="stylesheet" href="style.css?<?=VERSION?>" />
-  <link rel="stylesheet" href="print.css?<?=VERSION?>" media="print" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-  <script type="text/javascript">
-    if (typeof jQuery == 'undefined')
-    {
-        document.write("<script src='//files.dbrl.org/js/jquery/jquery-1.7.min.js'><"+"/script>");
-    }
-  </script>
-  <script src="jquery.floatheader.min.js"></script>
-  <script src="init.js?<?=VERSION?>"></script>
-
+<?php require_once "header.inc.php"; ?>
   <script>
 
       if (typeof console == "undefined") { var console = { log: function() {} }; }
 
       var departments = <?php echo json_encode($departments); ?>;
+      var today = new Date();
+      var days_of_week = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+      var relative_days = {"monday":1, "tuesday":2, "wednesday":3,  "thursday":4, "friday":5, "saturday":6, "sunday":7};
 
 
       $(function() {
+        //cache the scheudle notes
+         var schedule_notes;
+         $.getJSON("ps-notes.json", function(data){
+             schedule_notes = data;
+             //console.log("notes: ",schedule_notes);
+             add_notes(0, days_of_week[today.getDay()]);
+         });
+
+
 
          // auto highlight current hour when on today's schedule
          var update_time = function(){
@@ -59,16 +51,29 @@
          };
          add_search();
 
-         var add_note = function(label, forname) {
-             $('<tr class="desk"><td class="category" colspan="4">'+label+'</td><td colspan="56"><textarea rows="1" name="'+forname+'" class="notes" /></td></tr>')
-               .appendTo(".reporttable");
+         var add_note = function(label, value) {
+             $('<tr class="desk"><td class="category" colspan="4">'+label+'</td><td colspan="56">'+value+'</td></tr>').appendTo("#reporttable")
          };
-         var add_notes = function(){
-            add_note('Off for Weekend','off');
-            add_note('Vacations &amp; Other','vacations');
-            add_note('Schedules Changes','changes');
+         var add_notes = function(schedule_id, day){
+            // a little complex to describe
+            if ( day == "today" ){
+                day = days_of_week[today.getDay()];
+            }
+            //console.log(schedule_id);
+            console.log(day);
+            //console.log(relative_days[day]);
+            if ( !(day === 'saturday' || day === 'sunday') ) {
+
+                var this_that = ( schedule_id >= relative_days[day] ) ? "next" : "this";
+                //console.log(this_that);
+                var notes = schedule_notes[day][this_that];
+                //console.log(notes);
+                add_note('Off for Weekend',notes['weekend']);
+                add_note('Vacations &amp; Other',notes['vacations']);
+                add_note('Schedules Changes',notes['changes']);
+            }
          };
-         add_notes();
+
 
          $("#photos").click(function() {
              var re;
@@ -103,6 +108,7 @@
          };
          highlight_desks();
 
+
          $.ajaxSetup ({
     		cache: false
 	      });
@@ -122,7 +128,7 @@
          var $floatHeader = $("#reporttable0").floatHeader();
 
 
-         var update_schedule = function( dept_id, schedule_id ) {
+         var update_schedule = function( dept_id, schedule_id, day ) {
 
              $("#schedule").fadeOut(200, function() {
 
@@ -138,7 +144,7 @@
                      add_search();
                      // if PS
                      if ( dept_id == 9 ) {
-                        add_notes();
+                       add_notes(schedule_id, day);
                      }
                      highlight_desks();
                      $("thead tr:nth-child(1) td:first").append(" &bull; " + departments[dept_id]);
@@ -164,7 +170,7 @@
              $that = $(this);
              var schedule_id = $that.attr("rel");
 
-             update_schedule( $("#department").val(), schedule_id );
+             update_schedule( $("#department").val(), schedule_id, $that.text().toLowerCase() );
 
          });
 
