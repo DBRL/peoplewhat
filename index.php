@@ -10,7 +10,7 @@
 
 
       $(function() {
-
+         // don't cache the schedules as they are updated each hour
          $.ajaxSetup ({
     		cache: false
 	     });
@@ -59,23 +59,25 @@
          };
          add_search();
 
+         // display schedule notes
          var add_notes = function(schedule_id, day){
             // a little complex to describe
             if ( day == "today" ){
                 day = days_of_week[today.getDay()];
             }
             //console.log(schedule_id);
-            console.log(day);
+            //console.log(day);
             //console.log(relative_days[day]);
-            if ( !(day === 'saturday' || day === 'sunday') ) {
+            var this_that = ( schedule_id >= relative_days[day] ) ? "next" : "this";
+            //console.log(this_that);
+            var notes = schedule_notes[day][this_that];
+            //console.log(notes);
+            $("#weekend").text(notes['weekend']).show();
+            $("#vacations").text(notes['vacations']).show();
+            $("#changes").text(notes['changes']).show();
 
-                var this_that = ( schedule_id >= relative_days[day] ) ? "next" : "this";
-                //console.log(this_that);
-                var notes = schedule_notes[day][this_that];
-                //console.log(notes);
-                $("#weekend").text(notes['weekend']);
-                $("#vacations").text(notes['vacations']);
-                $("#changes").text(notes['changes']);
+            if ( (day === 'saturday' || day === 'sunday') ) {
+               // $(".notes").hide();
             }
          };
 

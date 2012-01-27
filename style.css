@@ -25,10 +25,10 @@ td { vertical-align: top; }
 
 #topnav {
     background: #000;
-    background: -moz-linear-gradient(top, #222222 0%, #000000 70%);
-    background: -webkit-linear-gradient(top, #222222 0%,#000000 70%);
-    background: -o-linear-gradient(top, #222222 0%,#000000 70%);
-    background: -ms-linear-gradient(top, #222222 0%,#000000 70%);
+    background: -moz-linear-gradient(top, #555555 0%, #000000 90%);
+    background: -webkit-linear-gradient(top, #555555 0%,#000000 90%);
+    background: -o-linear-gradient(top, #555555 0%,#000000 90%);
+    background: -ms-linear-gradient(top, #555555 0%,#000000 90%);
     /*background: linear-gradient(top, #222222 0%,#000000 70%);*/
     color: #FFF;
     position: relative;
@@ -79,8 +79,13 @@ td { vertical-align: top; }
     padding: 0.1em;
     width: 80%;
 }
+#q:after {
+    content: "0";
+}
 
 #main { clear:both; padding: 0 0 10px 5px; }
+
+#schedule { margin-bottom: 1em; }
 
 .highlight, .match  { background: #ffbf2d !important; color: #000; }
 
