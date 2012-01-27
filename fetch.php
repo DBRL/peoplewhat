@@ -119,9 +119,9 @@ function extract_table_html ( &$html, $i, $dept_id) {
 
     // add schedule notes
     if ( $dept_id === 9 ) {
-        $notes = '<tr class="desk notes"><td class="category" colspan="4">Weekend</td><td colspan="56" id="weekend"></td></tr>'."\n";
+        $notes = '<tr class="desk notes"><td class="category" colspan="4">Off for Weekend</td><td colspan="56" id="weekend"></td></tr>'."\n";
         $notes .= '<tr class="desk notes"><td class="category" colspan="4">Vacations</td><td colspan="56" id="vacations"></td></tr>'."\n";
-        $notes .= '<tr class="desk notes"><td class="category" colspan="4">Changes</td><td colspan="56" id="changes"></td></tr>'."\n";
+        $notes .= '<tr class="desk notes"><td class="category" colspan="4">Changes/Notes</td><td colspan="56" id="changes"></td></tr>'."\n";
 
         $table = str_replace('</tbody>', $notes.'</tbody>', $table);
     }
