@@ -16,15 +16,24 @@
 	     });
 
          // cache the schedule notes
-         var schedule_notes;
+         var schedule_notes = {};
          $.ajax({
             url: "schedules/ps-notes.json",
             cache: true,
             dataType: 'json',
             success: function(data){
-                 schedule_notes = data;
-                 //console.log("notes: ",schedule_notes);
+                 schedule_notes.current = data;
+                 console.log("notes: ",schedule_notes.current);
                  add_notes(0, days_of_week[today.getDay()]);
+            }
+         });
+        $.ajax({
+            url: "schedules/ps-notes-next.json",
+            cache: true,
+            dataType: 'json',
+            success: function(data){
+                 schedule_notes.next = data;
+                 console.log("notes: ",schedule_notes.next);
             }
          });
 
@@ -68,9 +77,9 @@
             //console.log(schedule_id);
             //console.log(day);
             //console.log(relative_days[day]);
-            var this_that = ( schedule_id >= relative_days[day] ) ? "next" : "this";
+            var this_that = ( schedule_id >= relative_days[day] ) ? "next" : "current";
             //console.log(this_that);
-            var notes = schedule_notes[day][this_that];
+            var notes = schedule_notes[this_that][day];
             //console.log(notes);
             $("#weekend").text(notes['weekend']).show();
             $("#vacations").text(notes['vacations']).show();
