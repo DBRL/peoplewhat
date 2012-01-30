@@ -5,7 +5,7 @@
 
       var departments = <?php echo json_encode($departments); ?>;
       var today = new Date();
-      var days_of_week = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+      var days_of_week = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
       var relative_days = {"monday":1, "tuesday":2, "wednesday":3,  "thursday":4, "friday":5, "saturday":6, "sunday":7};
 
 
@@ -23,7 +23,7 @@
             dataType: 'json',
             success: function(data){
                  schedule_notes.current = data;
-                 console.log("notes: ",schedule_notes.current);
+                 //console.log("notes: ",schedule_notes.current);
                  add_notes(0, days_of_week[today.getDay()]);
             }
          });
@@ -33,7 +33,7 @@
             dataType: 'json',
             success: function(data){
                  schedule_notes.next = data;
-                 console.log("notes: ",schedule_notes.next);
+                 //console.log("notes: ",schedule_notes.next);
             }
          });
 

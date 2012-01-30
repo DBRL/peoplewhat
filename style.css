@@ -112,8 +112,10 @@ tbody tr:hover { background: #FFD574 !important; }
 
 /* Scheudule Changes */
 .notes { width: 800px; margin: 20px;}
-.notes fieldset { padding: 20px; background: #EEE; }
+.notes h3 { font-size: 1.6em; margin: 0 0 0.4em; text-transform: capitalize; }
+.notes fieldset { padding: 1em; margin-bottom: 1em; background: #EEE; border: 1px solid #DDD;}
 .notes label { display: block; padding: 0.2em 0; color: #2f4f4f; font-weight: bold;}
-.notes input, .notes textarea { margin-bottom: 1em; padding: 0.3em; font-size: 16px;}
-.notes textarea { width: 98%;}
-.notes input[type="submit"] { margin: 0;}
+.notes input { margin-bottom: 0.4em; padding: 0.2em; font-size: 14px; width: 98%;}
+::-webkit-input-placeholder { color: #87cefa; }
+:-moz-placeholder { color: lightgray; }
+.notes input[type="submit"] { margin: 0; width: auto;}
