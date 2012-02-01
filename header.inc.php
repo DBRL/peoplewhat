@@ -6,7 +6,7 @@
  * Time: 12:21 PM
  * To change this template use File | Settings | File Templates.
  */
-define('VERSION','20120120');
+define('VERSION','20120201');
 require_once 'config.php';
 ?>
 <!doctype html>

@@ -111,11 +111,16 @@ tbody tr:hover { background: #FFD574 !important; }
 #footer { display:none; padding: 1.5em; background: #CCC; }
 
 /* Scheudule Changes */
+button.switcher {margin:  20px 0 0 20px; }
 .notes { width: 800px; margin: 20px;}
 .notes h3 { font-size: 1.6em; margin: 0 0 0.4em; text-transform: capitalize; }
-.notes fieldset { padding: 1em; margin-bottom: 1em; background: #EEE; border: 1px solid #DDD;}
+.notes fieldset { padding: 1em; margin-bottom: 0.8em; border: 1px solid #DDD;}
+.current fieldset {background: #C9C9C9; }
+.next fieldset { background: #ABC6DC; }
 .notes label { display: block; padding: 0.2em 0; color: #2f4f4f; font-weight: bold;}
-.notes input { margin-bottom: 0.4em; padding: 0.2em; font-size: 14px; width: 98%;}
-::-webkit-input-placeholder { color: #87cefa; }
+.notes input { margin-bottom: 0.4em; padding: 0.2em; font-size: 14px; width: 98%; background: #FFF; }
+::-webkit-input-placeholder { color: lightgray; }
 :-moz-placeholder { color: lightgray; }
 .notes input[type="submit"] { margin: 0; width: auto;}
+
+.current { display:none; }
