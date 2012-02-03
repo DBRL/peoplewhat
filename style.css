@@ -3,7 +3,7 @@ html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-
 body { margin: 0; font-size: 13px; line-height: 1.231;
  }
 body, button, input, select, textarea { font-family: "lucida grande", verdana, sans-serif; color: #222; }
-
+d
 
 a { color: #00e; }
 a:visited { color: #551a8b; }
@@ -111,9 +111,17 @@ tbody tr:hover { background: #FFD574 !important; }
 #footer { display:none; padding: 1.5em; background: #CCC; }
 
 /* Scheudule Changes */
+button.switcher {margin:  20px 0 0 20px; }
 .notes { width: 800px; margin: 20px;}
-.notes fieldset { padding: 20px; background: #EEE; }
+.notes h3 { font-size: 1.4em; font-weight: normal; margin: 0 0 0.4em; text-transform: capitalize; }
+.notes fieldset { padding: 1em; margin-bottom: 0.8em; border:1px solid #CCC; border-left: 4px solid #268EE3; }
+.notes fieldset.focus { /*background: #6091B8;*/ border-left-color: red; }
+.notes fieldset.focus input { border: 1px solid #DDD; }
+/*.current fieldset {background: #C9C9C9; }
+.next fieldset { background: #ABC6DC; }*/
 .notes label { display: block; padding: 0.2em 0; color: #2f4f4f; font-weight: bold;}
-.notes input, .notes textarea { margin-bottom: 1em; padding: 0.3em; font-size: 16px;}
-.notes textarea { width: 98%;}
-.notes input[type="submit"] { margin: 0;}
+.notes input[type=text] { margin-bottom: 0.4em; padding: 0.2em; font-size: 14px; width: 98%; border: 1px solid #FFF; }
+.notes input.placeholder { color:#80B7E3;  }
+.notes input[type="submit"] { margin: 0; width: auto;}
+
+.current { display:none; }
