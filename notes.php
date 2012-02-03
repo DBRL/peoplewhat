@@ -50,7 +50,7 @@ require_once "header.inc.php";
         var schedule_notes = {};
          $.ajax({
             url: "schedules/ps-notes.json",
-            cache: true,
+            cache: false,
             dataType: 'json',
             success: function(data){
                 schedule_notes.current = data;
@@ -60,7 +60,7 @@ require_once "header.inc.php";
          });
         $.ajax({
             url: "schedules/ps-notes-next.json",
-            cache: true,
+            cache: false,
             dataType: 'json',
             success: function(data){
                 schedule_notes.next = data;
@@ -69,17 +69,52 @@ require_once "header.inc.php";
             }
          });
         var add_notes = function (week) {
-          for ( var i = 0; i < 7; i++ ) {
+            for ( var i = 0; i < 7; i++ ) {
                var day = days_of_week[i];
                $("."+week+" #weekend-"+day).val(schedule_notes[week][day].weekend);
                $("."+week+" #vacations-"+day).val(schedule_notes[week][day].vacations);
                $("."+week+" #changes-"+day).val(schedule_notes[week][day].changes);
-          }
+            }
+            $(':input[title]').each(function() {
+                var $this = $(this);
+                if($this.val() === '') {
+                    $this.val($this.attr('title')).addClass("placeholder");
+                }
+                if($this.val() !== $this.attr('title')) {
+                    $this.removeClass("placeholder");
+                }
+            });
         };
-
+        $(':input[title]').each(function() {
+            var $this = $(this);
+            $this.focus(function() {
+                if($this.val() === $this.attr('title')) {
+                    $this.val('').removeClass("placeholder");
+                }
+            });
+            $this.blur(function() {
+                if($this.val() === '') {
+                    $this.val($this.attr('title')).addClass("placeholder");
+                }
+            });
+        });
         $("button").click(function() {
             $(".week").toggle();
         });
+
+        $("input").focus(function() {
+            $("fieldset").removeClass("focus");
+            $(this).parent().addClass("focus");
+        });
+        $("form").submit(function(){
+           $(':input[title]').each(function() {
+               var $this = $(this);
+               if($this.val() === $this.attr('title')) {
+                    $this.val('');
+                }
+           });
+        });
+
 
     });
 </script>
@@ -96,9 +131,9 @@ require_once "header.inc.php";
         <?php for ($i = 0; $i < 7; $i++): ?>
         <fieldset>
             <h3 class="date-<?=$days_of_week[$i]?>">THIS <?=$days_of_week[$i]?></h3>
-            <input name="weekend-<?=$days_of_week[$i]?>" id="weekend-<?=$days_of_week[$i]?>" placeholder="Weekend" />
-            <input name="vacations-<?=$days_of_week[$i]?>" id="vacations-<?=$days_of_week[$i]?>" placeholder="Vacations" />
-            <input name="changes-<?=$days_of_week[$i]?>" id="changes-<?=$days_of_week[$i]?>" placeholder="Changes" />
+            <input type="text" name="weekend-<?=$days_of_week[$i]?>" id="weekend-<?=$days_of_week[$i]?>" title="Weekend" class="placeholder" />
+            <input type="text" name="vacations-<?=$days_of_week[$i]?>" id="vacations-<?=$days_of_week[$i]?>" title="Vacations" class="placeholder" />
+            <input type="text" name="changes-<?=$days_of_week[$i]?>" id="changes-<?=$days_of_week[$i]?>" title="Changes" class="placeholder" />
         </fieldset>
         <?php endfor; ?>
         <input type="submit" name="submit" value="Submit" />
@@ -110,9 +145,9 @@ require_once "header.inc.php";
         <?php for ($i = 0; $i < 7; $i++): ?>
         <fieldset>
             <h3 class="date-<?=$days_of_week[$i]?>">NEXT <?=$days_of_week[$i]?></h3>
-            <input name="weekend-<?=$days_of_week[$i]?>" id="weekend-<?=$days_of_week[$i]?>" placeholder="Weekend" />
-            <input name="vacations-<?=$days_of_week[$i]?>" id="vacations-<?=$days_of_week[$i]?>" placeholder="Vacations" />
-            <input name="changes-<?=$days_of_week[$i]?>" id="changes-<?=$days_of_week[$i]?>" placeholder="Changes" />
+            <input type="text" name="weekend-<?=$days_of_week[$i]?>" id="weekend-<?=$days_of_week[$i]?>" title="Weekend" class="placeholder" />
+            <input type="text" name="vacations-<?=$days_of_week[$i]?>" id="vacations-<?=$days_of_week[$i]?>" title="Vacations" class="placeholder" />
+            <input type="text" name="changes-<?=$days_of_week[$i]?>" id="changes-<?=$days_of_week[$i]?>" title="Changes" class="placeholder" />
         </fieldset>
         <?php endfor; ?>
         <input type="submit" name="submit" value="Submit" />
