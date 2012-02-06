@@ -46,8 +46,12 @@ function get_schedule( $date, $dept_id ){
         $cookie_name = rtrim($bits[5]);
         $session_id = rtrim($bits[6]);
     }
-
-    $url = SCHEDULE_FETCH_URL . "&orgid={$dept_id}&startdate={$date}&enddate={$date}";
+    // Circ-Front Desk wants a different report
+    if ( $dept_id === 7 ) {
+        $url = SCHEDULE_FETCH_URL . "&rotationorgid=7&orgid={$dept_id}&startdate={$date}&enddate={$date}";
+    } else {
+        $url = SCHEDULE_FETCH_URL . "&rotationorgid=0&orgid={$dept_id}&startdate={$date}&enddate={$date}";
+    }
 
     if (TESTING) {
         var_dump ($url);
