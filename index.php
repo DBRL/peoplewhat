@@ -18,7 +18,7 @@
 				var schedule_notes = {};
 				$.ajax({
 						url: "schedules/ps-notes.json",
-						cache: true,
+						cache: false,
 						dataType: 'json',
 						success: function(data){
 								 schedule_notes.current = data;
@@ -28,7 +28,7 @@
 				});
 				$.ajax({
 						url: "schedules/ps-notes-next.json",
-						cache: true,
+						cache: false,
 						dataType: 'json',
 						success: function(data){
 								 schedule_notes.next = data;
