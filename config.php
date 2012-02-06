@@ -18,7 +18,7 @@ define('SCHEDULES_PATH', APP_PATH . 'schedules' . DIRECTORY_SEPARATOR);
 define('COOKIEFILE', APP_PATH . 'cookies.txt');
 define('LOGIN_URL','http://schedule.dbrl.org/login.asp?staffaction=signin&email=');
 
-define('SCHEDULE_FETCH_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&rotationorgid=0&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
+define('SCHEDULE_FETCH_URL','http://schedule.dbrl.org/reports/schedule.asp?selectedreporttype=2&reporttype=2&selectedstaffid=142&rotationid=0&dispname=1&dispabsences=1&dispshifts=1');
 
 // Organization IDs
 //&orgid=9
