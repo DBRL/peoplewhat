@@ -69,6 +69,7 @@
 
 				 // display schedule notes
 				var add_notes = function(schedule_id, day){
+                        var notes, this_that;
 						// a little complex to describe
 						if ( day == "today" ){
 								day = days_of_week[today.getDay()];
@@ -76,17 +77,18 @@
 						//console.log(schedule_id);
 						//console.log(day);
 						//console.log(relative_days[day]);
-						var this_that = ( schedule_id >= relative_days[day] ) ? "next" : "current";
+						this_that = ( schedule_id >= relative_days[day] ) ? "next" : "current";
 						//console.log(this_that);
-						var notes = schedule_notes[this_that][day];
-						//console.log(notes);
-						$("#weekend").text(notes['weekend']).show();
-						$("#vacations").text(notes['vacations']).show();
-						$("#changes").text(notes['changes']).show();
+                        if ( notes = schedule_notes[this_that][day] ) {
+                            //console.log(notes);
+                            $("#weekend").text(notes['weekend']).show();
+                            $("#vacations").text(notes['vacations']).show();
+                            $("#changes").text(notes['changes']).show();
 
-						if ( (day === 'saturday' || day === 'sunday') ) {
-							 // $(".notes").hide();
-						}
+                            if ( (day === 'saturday' || day === 'sunday') ) {
+                                 // $(".notes").hide();
+                            }
+                        }
 				};
 
 
