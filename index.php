@@ -74,20 +74,15 @@
 						if ( day == "today" ){
 								day = days_of_week[today.getDay()];
 						}
-						//console.log(schedule_id);
-						//console.log(day);
-						//console.log(relative_days[day]);
+
+                        // do we need to display the current week or next?
 						this_that = ( schedule_id >= relative_days[day] ) ? "next" : "current";
-						//console.log(this_that);
-                        if ( notes = schedule_notes[this_that][day] ) {
-                            //console.log(notes);
+
+                        if ( schedule_notes[this_that] ) {
+                            notes = schedule_notes[this_that][day];
                             $("#weekend").text(notes['weekend']).show();
                             $("#vacations").text(notes['vacations']).show();
                             $("#changes").text(notes['changes']).show();
-
-                            if ( (day === 'saturday' || day === 'sunday') ) {
-                                 // $(".notes").hide();
-                            }
                         }
 				};
 
