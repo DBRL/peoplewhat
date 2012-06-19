@@ -158,7 +158,7 @@ function write_table ( $file, &$table ) {
 
 
 /**
- * @return void
+ * @return true for successful connection; false otherwise
  * @description Login to set the cookie
  */
 function peoplewhere_login(){
@@ -167,12 +167,10 @@ function peoplewhere_login(){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
     curl_setopt($ch, CURLOPT_COOKIEJAR, COOKIEFILE);
-    //curl_setopt($ch, CURLOPT_COOKIEFILE, COOKIEFILE);
 
-    $output = curl_exec($ch);
-    $info = curl_getinfo($ch);
+    $result = curl_exec($ch);
     curl_close($ch);
-
+    return $result;
 }
 
 
@@ -182,29 +180,31 @@ function peoplewhere_login(){
 
 <h3>Fetching tables&hellip;</h3>
 <?php
+if ( peoplewhere_login() ):
 
-peoplewhere_login();
+    foreach ($departments as $dept_id => $dept):
 
-foreach ($departments as $dept_id => $dept):
+        $i = 0;
+        foreach ($dates as $day):
+            echo "<p>{$dept} ({$dept_id}) - {$day}</p>\n";
+            $html = get_schedule( $day, $dept_id );
 
-    $i = 0;
-    foreach ($dates as $day):
-        echo "<p>{$dept} ({$dept_id}) - {$day}</p>\n";
-        $html = get_schedule( $day, $dept_id );
+            if (TESTING) { echo '<p>'.strlen($html)."</p>\n"; }
 
-        if (TESTING) { echo '<p>'.strlen($html)."</p>\n"; }
+            //write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $html);
 
-        //write_table( SCHEDULES_PATH . $dept_id .'__'.$i.'.html', $html);
+            $table = extract_table_html($html, $i, $dept_id);
 
-        $table = extract_table_html($html, $i, $dept_id);
+            write_table( SCHEDULES_PATH . $dept_id .'_'.$i++.'.html', $table);
 
-        write_table( SCHEDULES_PATH . $dept_id .'_'.$i++.'.html', $table);
+        endforeach;
 
     endforeach;
-
-endforeach;
 ?>
-<p>Done.</p>
+    <p>Done.</p>
+<?php else: ?>
+    <p>Error synchronizing schedules </p>
+<?php endif; ?>
 
 </body>
 </html>
