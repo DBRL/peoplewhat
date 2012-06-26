@@ -32,20 +32,64 @@ $crap_to_delete = array(
 );
 
 /**
+ * @return true for successful connection; false otherwise
+ * @description Login to set the cookie
+ */
+function peoplewhere_login(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, LOGIN_URL . USERNAME . '&password=' . PASSWORD);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    curl_setopt($ch, CURLOPT_COOKIEJAR, COOKIEFILE);
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+
+
+/**
  * @param $date
  * @return string
  */
 function get_schedule( $date, $dept_id ){
 
-    static $cookie_name, $session_id;
+    static $cookie_str, $cookies = array();
 
-    // Parse cookie file to find session ID; save it for later
-    if (!isset($session_id)) {
-        $cookie = file_get_contents(COOKIEFILE);
-        $bits = explode("\t",$cookie);
-        $cookie_name = rtrim($bits[5]);
-        $session_id = rtrim($bits[6]);
+    // Parse cookie file
+    if (empty($cookies)) {
+
+        // read the file
+        $lines = file(COOKIEFILE);
+
+        // var to hold output
+        $trows = '';
+
+        // iterate over lines
+        foreach($lines as $line) {
+
+          // we only care for valid cookie def lines
+          if($line[0] != '#' && substr_count($line, "\t") == 6) {
+
+            // get tokens in an array
+            $tokens = explode("\t", $line);
+
+            // trim the tokens
+            $tokens = array_map('trim', $tokens);
+            array_push($cookies, $tokens);
+
+          }
+
+        }
+        // create the cookie header string
+        foreach ($cookies as $cookie) {
+            $cookie_str .= 'Cookie: ' . $cookie[5] . '=' . $cookie[6] . "; path=/; domain=schedule.dbrl.org\r\n";
+        }
+
+        if (TESTING) { var_dump ($cookie_str); }
+
     }
+
     // Circ-Front Desk wants a different report
     if ( $dept_id === 7 ) {
         $url = SCHEDULE_FETCH_URL . "&rotationorgid=7&orgid={$dept_id}&startdate={$date}&enddate={$date}";
@@ -53,17 +97,16 @@ function get_schedule( $date, $dept_id ){
         $url = SCHEDULE_FETCH_URL . "&rotationorgid=0&orgid={$dept_id}&startdate={$date}&enddate={$date}";
     }
 
-    if (TESTING) {
-        var_dump ($url);
-    }
+    if (TESTING) { var_dump ($url); }
 
     $opts = array(
       'http'=>array(
         'method'=>"GET",
-        'header'=>"Accept-language: en\r\n" .
-                  "Cookie: {$cookie_name}={$session_id}; path=/; domain=schedule.dbrl.org\r\n"
+        'header'=>"Accept-language: en\r\n" . $cookie_str
       )
     );
+
+    if (TESTING) { var_dump ($opts); }
 
     $context = stream_context_create($opts);
 
@@ -154,23 +197,6 @@ function write_table ( $file, &$table ) {
     }
 
     fclose($fh);
-}
-
-
-/**
- * @return true for successful connection; false otherwise
- * @description Login to set the cookie
- */
-function peoplewhere_login(){
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, LOGIN_URL . USERNAME . '&password=' . PASSWORD);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    curl_setopt($ch, CURLOPT_COOKIEJAR, COOKIEFILE);
-
-    $result = curl_exec($ch);
-    curl_close($ch);
-    return $result;
 }
 
 
