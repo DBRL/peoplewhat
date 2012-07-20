@@ -94,7 +94,7 @@
 								re = new RegExp("^"+index,"i");
 								//console.log(index);
 
-								$("tbody td.details_shifts").filter(function() {
+								$(".details_shifts, .details_break", "tbody").filter(function() {
 									 name = $(this).text();
 									 return name.match(re);
 								}).html("<img src='http://intranet.dbrl.org/dir/staff/photos/"+val+"_sm.jpg' height='80' title='"+index+"' />");
