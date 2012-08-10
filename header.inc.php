@@ -16,7 +16,7 @@ require_once 'config.php';
   <title>DBRL Schedule</title>
   <link rel="stylesheet" href="style.css?<?=VERSION?>" />
   <link rel="stylesheet" href="print.css?<?=VERSION?>" media="print" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
   <script type="text/javascript">
     if (typeof jQuery == 'undefined')
     {
