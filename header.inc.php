@@ -11,8 +11,9 @@ require_once 'config.php';
 ?>
 <!doctype html>
 <html>
-<head>
+<head lang="en-US" xml:lang="en-US" xmlns ="http://www.w3.org/1999/xhtml">
   <meta charset="utf-8">
+  <meta http-equiv="content-language" content="en">
   <title>DBRL Schedule</title>
   <link rel="stylesheet" href="style.css?<?=VERSION?>" />
   <link rel="stylesheet" href="print.css?<?=VERSION?>" media="print" />

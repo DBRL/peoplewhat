@@ -8,8 +8,8 @@
 ///home/www/intranet.dbrl.org/www/app/workbench/peoplewhat/
 
 define('NUM_SCHEDULES',10);
-define('USERNAME','npauley');
-define('PASSWORD','npauley');
+define('USERNAME','switchboard');
+define('PASSWORD','switchboard');
 
 define('APP_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR );
 define('SCHEDULES_PATH', APP_PATH . 'schedules' . DIRECTORY_SEPARATOR);
